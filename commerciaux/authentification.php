@@ -227,7 +227,7 @@
             <form action="inscription.php" method="POST">
                 <h1>Creer un compte</h1>
                 <div class="social-icons">
-                    <a href="{{url_for('google.login')}}" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
 
                 </div>
                 <span>Ou utilisez un email pour vous inscrire</span>
@@ -240,7 +240,7 @@
             </form>
         </div>
         <div class="form-container sign-in">
-            <form action="connexion.php" method="POST">
+            <form action="verification.php" method="POST">
                 <h1>Connectez vous</h1>
                 <div class="social-icons">
                     <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
@@ -281,7 +281,7 @@
         loginBtn.addEventListener('click', () => {
             container.classList.remove("active");
         });
-            </script>
+    </script>
 </body>
 
 </html>
