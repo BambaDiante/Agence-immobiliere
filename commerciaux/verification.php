@@ -1,5 +1,6 @@
 <?php
    require_once "../configuration/connexion.php";
+   session_start();
 ?>
 <?php
    if(isset($_POST['mail'],$_POST['password'])){
@@ -11,7 +12,11 @@
      $resultat=$parcourir->fetch(PDO::FETCH_ASSOC);
    if(!empty($resultat)){
         if($resultat['password']==$_POST['password']){
-          header("Location:acceuil.php");
+            $_SESSION['connected']=true;
+            $_SESSION['nom']=$resultat['nom'];
+            $_SESSION['id']=$resultat['idUser'];
+            header("Location:acceuil.php");
+            exit;
         }
         else{
            echo "Mot de passe incorrect"; 

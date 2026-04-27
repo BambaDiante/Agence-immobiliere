@@ -231,11 +231,11 @@
 
                 </div>
                 <span>Ou utilisez un email pour vous inscrire</span>
-                <input type="text" name="name" placeholder="Nom">
-                <input type="email" name="mail" placeholder="Email">
-                <input type="date" name="date" placeholder="Date de naissance">
-                <input type="text" name="adresse" placeholder="Adresse">
-                <input type="password" name="password" placeholder="Mot de passe">
+                <input type="text" name="name" placeholder="Nom" required>
+                <input type="email" name="mail" placeholder="Email" required>
+                <input type="date" name="date" placeholder="Date de naissance" required>
+                <input type="text" name="adresse" placeholder="Adresse" required>
+                <input type="password" name="password" placeholder="Mot de passe" required> 
                 <button type="submit">S'inscrire</button>
             </form>
         </div>

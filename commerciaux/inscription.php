@@ -1,5 +1,6 @@
 <?php
    require_once "../configuration/connexion.php";
+   session_start();
 ?>
 <?php
    if(isset($_POST['name'],$_POST['mail'],$_POST['date'],$_POST['adresse'],$_POST['password'])){
@@ -14,6 +15,9 @@
         ":password"=>$_POST['password'],
         ":is_activated"=>true
     ]);
+    $_SESSION['connected']=true;
+    $_SESSION['nom']=$_POST['name'];
+    $_SESSION['id']=$pdo->lastInsertId();
     header("Location:acceuil.php");
    }
 ?>
