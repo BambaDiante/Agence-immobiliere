@@ -6,6 +6,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon"  href="../configuration/images/logoagence.jpeg">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=search" />
     <title>Gestion des clients</title>
@@ -171,15 +173,15 @@
             width: 100%;
             padding: 1.5rem;
             background:#2c2d2d;
-            backdrop-filter: blur(10px); /* Effet de flou */
+            backdrop-filter: blur(10px);
             border-top: 1px solid rgba(255, 255, 255, 0.3);
-            color:white; /* Utilisation de la couleur de vos liens au survol */
+            color:white; 
             font-size: 0.9rem;
             font-weight: 500;
         }
         table{
             border-collapse:collapse;
-            margin:auto;
+            margin:40px auto;
             border:1px solid black;
             font-weight:300;
             max-width:98%;
@@ -191,6 +193,19 @@
             margin:15px;
             padding:15px;
             border-radius:15px;  
+        }
+        .bouton{
+            padding:10px;
+            border-radius:10px;
+            color:white;
+            width:95%;
+            border:1px solid black;
+        }
+        .bouton-danger{
+            background:#bb2d3b;
+        }
+        .bouton-success{
+            background:#157347;
         }
     </style>
 </head>
@@ -238,6 +253,7 @@
                 <th>Adresse</th>
                 <th>Mail</th>
                 <th>Status</th>
+                <th>Boutons</th>
             </tr>
             <?php
                foreach($users as $us){
@@ -248,10 +264,25 @@
                     echo "<th>".$us['mail']."</th>";
                     if($us['is_activated']==1){
                         echo "<th>Active</th>";
+                        echo "<th>";
+                        echo "<form action='deluser.php' method='POST'>";
+                        echo "<input type='hidden' name='idUser' value=".$us['IdUser'].">";
+                        echo "<input type='submit' class='bouton bouton-danger' value='Desactiver'>";
+                        echo "</form>";
+                        echo "</th>";
+
                     }
                     else{
                         echo "<th>Desactive</th>";
+                        echo "<th>";
+                        echo "<form action='actuser.php' method='POST'>";
+                        echo "<input type='hidden' name='idusers' value=".$us['IdUser'].">";
+                        echo "<input type='submit' class='bouton bouton-success'  value='Activer'>";
+                        echo "</form>";
+                        echo "</th>";
+
                     }
+                    
                     echo "<tr>";
                }
             ?>

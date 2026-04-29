@@ -1,0 +1,21 @@
+/* --- Pour Firefox (Standard) --- */
+* {
+    scrollbar-width: thin; /* Options: auto, thin, none */
+    scrollbar-color: #7F7F7F white; /* Couleur du curseur et de la piste */
+}
+
+/* --- Pour Chrome, Edge et Safari (Webkit) --- */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: white;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(white, #7F7F7F, black);
+    border: 1px solid white;
+    border-radius: 10px;
+}

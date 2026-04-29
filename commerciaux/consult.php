@@ -1,25 +1,48 @@
 <?php
-    session_start();
+   session_start();
+   require_once "../configuration/connexion.php";
+   $id=$_SESSION['id'];
+   $delete_message = "";
+   $delete_error = false;
 
-    if (!isset($_SESSION['connected']) || $_SESSION['connected'] !== true) {
-        header("Location:authentification.php");
-        exit;
-    }
-    require_once("../configuration/connexion.php");
+   // Traitement de la suppression
+   if (isset($_POST['delete_idbien'])) {
+       // Vérifier d'abord le statut du bien
+       $check = $pdo->prepare("SELECT statut FROM bien_imm WHERE IdBien = :IdBien");
+       $check->execute([":IdBien" => $_POST['delete_idbien']]);
+       $bien = $check->fetch(PDO::FETCH_ASSOC);
+       
+       if ($bien && $bien['statut'] === 'libre') {
+           // Le bien est libre, on peut le supprimer
+           // Supprimer d'abord les photos associées au bien
+           $delete_photos = $pdo->prepare("DELETE FROM photos WHERE idBien = :idBien");
+           $delete_photos->execute([":idBien" => $_POST['delete_idbien']]);
+           
+           // Ensuite supprimer le bien lui-même
+           $delete_bien = $pdo->prepare("DELETE FROM bien_imm WHERE IdBien = :IdBien");
+           $delete_bien->execute([":IdBien" => $_POST['delete_idbien']]);
+           
+           $delete_message = "Bien supprimé avec succès !";
+       } else if ($bien && $bien['statut'] !== 'libre') {
+           // Le bien est réservé ou en location
+           $delete_message = "❌ Impossible de supprimer ce bien car il est actuellement en réservation ou en location.";
+           $delete_error = true;
+       } else {
+           $delete_message = "❌ Bien introuvable.";
+           $delete_error = true;
+       }
+   }
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=search" />
-    <link rel="stylesheet" href="../configuration/css/bootstrap.min.css">
     <link rel="icon"  href="../configuration/images/logoagence.jpeg">
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=search" />
     <link rel="stylesheet" href="style.css">
-    <title>Page d'acceuil</title>
+    <title>Gestion de mes biens</title>
     <style>
-        
         *{
             margin: 0;
             padding: 0;
@@ -35,33 +58,6 @@
             min-height: 100vh;
             text-align:center;
         }
-        .hero{
-            position: relative;
-            width: 95%; 
-            margin: 20px auto;
-        }
-
-        #fond{
-            width: 95%;
-            height: 90vh;
-            border-radius: 15px;
-        }
-        #mess{
-            position: absolute;
-            top: 20%;
-            left: 50%;
-            font-weight:bold;
-            transform: translate(-50%, -50%);  
-            color: white;
-            font-size: 2.5rem;
-            padding: 10px 20px;
-            color:black;
-            border-radius: 10px;
-            white-space: nowrap;
-            overflow: hidden;
-            max-width: 0;
-            animation: typing 2s steps(30) forwards;
-        }
         header {
             display: flex;
             flex-direction: row;
@@ -74,19 +70,6 @@
             backdrop-filter: blur(5px);           /* Optionnel: effet de flou */
             z-index: 3000;
             padding: 10px 0;
-        }
-
-        /* Ajoutez une marge au corps de la page pour ne pas que le contenu passe sous le header fixe */
-        body {
-            padding-top: 70px; 
-        }
-        @keyframes typing{
-            from {
-                max-width: 0;
-            }
-            to {
-                max-width: 100%;
-            }
         }
         .menu {
             order: 3; /* Place le menu en dernier */
@@ -130,19 +113,6 @@
         
         .sidebar{
             margin-right:100px;
-        }
-        
-        .container{
-            background:#fff;
-            display:inline-block;
-            align-items:center;
-            justify-content:center;
-            border-radius:15px;
-            width:min(90%, 900px);
-            min-height:500px;
-            margin:24px auto;
-            padding:20px;
-            box-shadow:0 10px 30px rgba(0,0,0,0.12);
         }
         nav{
             position:fixed;
@@ -239,34 +209,77 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
-        #disconnect{
-            margin-top:100%;
-            background:#bf995c;
-            padding:10px;
+        table{
+            border-collapse:collapse;
+            margin:40px auto;
+            border:1px solid black;
+            font-weight:300;
+            max-width:98%;
+                      
+        }
+        tr,th{
+            border:1px solid black;
+            font-weight:300;
+            margin:15px;
+            padding:15px;
+            border-radius:15px;  
+        }
+        #boutons{
+            display:flex;
+            border:none;
+        }
+        input[type="submit"]{
+            margin:5px;
+            padding:15px;
+            border:1px solid black;
             border-radius:15px;
             color:white;
         }
-        .card{
-            margin:2px;
+        #modif{
+            background:#157347;
         }
-        .card-img-top{
-            margin-top:10px;
+        #dele{
+            background:#bb2d3b;
         }
-        .list-group-item,.list-group{
-            border:none;
+        .container{
+            margin-top:100px;
         }
-        .card-body,.card-text{
-            /* border-bottom:none;
-            border-top:none; */
-            border:none;
+
+        .delete-message {
+            margin: 20px auto;
+            padding: 15px;
+            border-radius: 8px;
+            max-width: 98%;
+            font-weight: 500;
+            animation: slideIn 0.3s ease;
         }
-        
-        
+
+        .delete-message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .delete-message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
         
     </style>
 </head>
 <body>
-
     <header>
         <a href="acceuil.php"><img src="../configuration/images/logoagence.jpeg" id="logo" alt="logo"></a>
         
@@ -296,52 +309,72 @@
         </ul>
     </nav>
     <div class="menu-overlay" id="overlay" onclick="closeMenu()"></div>
-    <div class="bloc">
-        <div class="hero">
-            <img src="../configuration/images/villa.jpg" id="fond" alt="Image de fonds">
+
+    <?php
+        $select="SELECT B.*, (SELECT url FROM photos WHERE idBien = B.IdBien LIMIT 1) as url FROM bien_imm B WHERE B.idUser=:idUser";
+        $recup=$pdo->prepare($select);
+        $recup->execute([
+        ":idUser"=>$_SESSION['id'],
+        ]);
+        $bieninfo=$recup->fetchALL(PDO::FETCH_ASSOC);
+    ?>
+    <div class="container">
+        <h1>Gestion de mes biens</h1>
+        
+        <?php if ($delete_message): ?>
+            <div class="delete-message <?php echo $delete_error ? 'error' : 'success'; ?>">
+                <?php echo htmlspecialchars($delete_message); ?>
+            </div>
+        <?php endif; ?>
+
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Type</th>
+                <th>Titre</th>
+                <th>Superficie(m²)</th>
+                <th>Adresse</th>
+                <th>Prix journalier</th>
+                <th>Nombre de pieces</th>
+                <th>Action</th>
+            </tr>
             <?php
-                echo "<h1 id='mess'>Bienvenue ".$_SESSION['nom']."</h1>";
+                foreach($bieninfo as $info){
+                    echo "<tr>";
+                    echo "<th>".$info['IdBien']."</th>";
+                    if($info['IdBien']=="app"){
+                        echo "<th>Appartement</th>";
+                    }
+                    else{
+                        echo "<th>Villa</th>";
+                    }
+                    echo "<th>".$info['titre']."</th>";
+                    echo "<th>".$info['Superficie']."</th>";
+                    echo "<th>".$info['Adresse']."</th>";
+                    echo "<th>".$info['Prix_jour']."</th>";
+                    echo "<th>".$info['nbre_pieces']."</th>";
+                    echo "<th id='boutons'>";
+                        echo "<form method='POST' action='setbien.php'>";
+                        echo "<input type='hidden' name='id' value=".$info['IdBien'].">";
+                        echo "<input type='hidden' name='titre' value=".$info['titre'].">";
+                        echo "<input type='hidden' name='sup' value=".$info['Superficie'].">";
+                        echo "<input type='hidden' name='adr' value=".$info['Adresse'].">";
+                        echo "<input type='hidden' name='prix' value=".$info['Prix_jour'].">";
+                        echo "<input type='hidden' name='nbre' value=".$info['nbre_pieces'].">";  
+                        echo "<input type='submit' id='modif' value='Modifer'>";
+                        echo "</form>";
+
+                        echo "<form method='POST' action=''>";
+                        echo "<input type='hidden' name='delete_idbien' value=".$info['IdBien'].">";
+                        echo "<input type='submit' id='dele' value='Supprimer' onclick='return confirm(\"Êtes-vous sûr de vouloir supprimer ce bien ?\");'>";
+                        echo "</form>";
+                    echo "</th>";
+                    echo "</tr>";          
+                    
+
+                }
             ?>
-        </div>
-        <div class="container">
-        <?php
-           $select="SELECT B.*, (SELECT url FROM photos WHERE idBien = B.IdBien LIMIT 1) as url FROM bien_imm B WHERE B.idUser=:idUser";
-           $recup=$pdo->prepare($select);
-           $recup->execute([
-            ":idUser"=>$_SESSION['id'],
-           ]);
-           $bieninfo=$recup->fetchALL(PDO::FETCH_ASSOC);
-           if(!empty($bieninfo)){
-            echo "<div class='row'>";
-            foreach($bieninfo as $info){
-                echo "<div class='card col-md-4'  style='width: 18rem;'>";
-                    echo "<img src='".$info['url']."' class='card-img-top' alt='...'>"   ;         
-                    echo "<div class='card-body'>";
-                        echo '<h5 class="card-title">'.$info['titre'].'</h5>';
-                        echo '<p class="card-text">'.$info['Description'].'</p>';
-                    echo '</div>';
-                    echo '<ul class="list-group list-group-flush">';
-                        echo '<li class="list-group-item">Adresse:'.$info['Adresse'].'</li>';
-                        echo'<li class="list-group-item">Prix:'.$info['Prix_jour'].'</li>';
-                    echo '</ul>';
-                    echo '<div class="card-body">';
-                       echo "<form method='POST' action='detailsbien.php'>";
-                        echo "<input type='hidden' name='IdBien' value='".$info['IdBien']."'>";
-                        echo "<input type='submit' class='btn btn-primary' Value='Voir les details'>";
-                       echo "</form>";
-                    echo '</div>';
-
-
-                echo "</div>";
-            }
-            echo '</div>';   
-
-           }
-
-
-        ?>
-
-        </div>
+        </table>
     </div>
     
 </body>

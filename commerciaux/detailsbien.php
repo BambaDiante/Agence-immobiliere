@@ -71,6 +71,10 @@
             justify-content:center;
             width:80%;
         }
+        .card-title,.card-text{
+            margin:10px auto;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -103,8 +107,8 @@
     <!--Apres le caroussel l'affichage des informations du bien -->
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title"><?php echo $bien_infos["titre"] ?? ""; ?></h5>
-            <p class="card-text"><?php echo $bien_infos["Description"] ?? ""; ?></p>
+            <h5 class="card-title"><?php echo $bien_infos["titre"]; ?></h5>
+            <p class="card-text"><?php echo $bien_infos["Description"]; ?></p>
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">Nombre de pieces: <?php echo $bien_infos["nbre_pieces"] ?? ""; ?></li>
@@ -113,6 +117,6 @@
             <li class="list-group-item">Statut: <?php echo $bien_infos["statut"] ?? ""; ?></li>
         </ul>
     </div>
-    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
