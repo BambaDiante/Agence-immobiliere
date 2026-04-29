@@ -75,7 +75,7 @@
 </head>
 <body>
     <?php
-        echo "<h1>Bonjour ".$_SESSION['nom']."</h1>";
+        echo "<h1>".$_SESSION['nom']."</h1>";
     ?>
     <h2>Formulaire d'ajout de bien immobilier</h2>
     <form action="ajoutbien.php" method="POST" enctype="multipart/form-data">
@@ -85,7 +85,8 @@
                 <option value="app">Appartement</option>
                 <option value="vil">Villa</option>
         </select>
-        <input type="number" name="sup" placeholder="Superficie(en m2)">
+        <input type="text" name="title" placeholder="Titre">
+        <input type="number" name="sup" placeholder="Superficie(en m²)">
         <input type="text" name="addr" placeholder="Adresse">
         <input type="number" name="nbre" placeholder="Nombre de pieces">
         <input type="number" name="price" placeholder="Prix journalier">

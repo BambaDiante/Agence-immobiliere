@@ -1,11 +1,6 @@
 <?php
-    session_start();
-
-    if (!isset($_SESSION['connected']) || $_SESSION['connected'] !== true) {
-        header("Location:authentification.php");
-        exit;
-    }
-    require_once("../configuration/connexion.php");
+   session_start();
+   require_once "../configuration/connexion.php"; 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,11 +8,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=search" />
-    <link rel="stylesheet" href="../configuration/css/bootstrap.min.css">
-
-    <title>Page d'acceuil</title>
+    <title>Gestion des clients</title>
     <style>
-        *{
+         *{
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -31,33 +24,8 @@
             width:100%;
             min-height: 100vh;
             text-align:center;
-        }
-        .hero{
-            position: relative;
-            width: 95%; 
-            margin: 20px auto;
-        }
-
-        #fond{
-            width: 95%;
-            height: 90vh;
-            border-radius: 15px;
-        }
-        #mess{
-            position: absolute;
-            top: 20%;
-            left: 50%;
-            font-weight:bold;
-            transform: translate(-50%, -50%);  
-            color: white;
-            font-size: 2.5rem;
-            padding: 10px 20px;
-            color:black;
-            border-radius: 10px;
-            white-space: nowrap;
-            overflow: hidden;
-            max-width: 0;
-            animation: typing 2s steps(30) forwards;
+            display: flex; /* Active Flexbox sur le corps de la page */
+            flex-direction: column;
         }
         header{
             display:flex;
@@ -118,18 +86,7 @@
             margin-right:100px;
         }
         
-        .container{
-            background:#fff;
-            display:inline-block;
-            align-items:center;
-            justify-content:center;
-            border-radius:15px;
-            width:min(90%, 900px);
-            min-height:500px;
-            margin:24px auto;
-            padding:20px;
-            box-shadow:0 10px 30px rgba(0,0,0,0.12);
-        }
+        
         nav{
             position:fixed;
             top:0;
@@ -209,37 +166,37 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
-        #disconnect{
-            margin-top:100%;
-            background:#bf995c;
-            padding:10px;
-            border-radius:15px;
-            color:white;
+        footer {
+            margin-top: auto;
+            width: 100%;
+            padding: 1.5rem;
+            background:#2c2d2d;
+            backdrop-filter: blur(10px); /* Effet de flou */
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            color:white; /* Utilisation de la couleur de vos liens au survol */
+            font-size: 0.9rem;
+            font-weight: 500;
         }
-        .card{
-            margin:10px;
+        table{
+            border-collapse:collapse;
+            margin:auto;
+            border:1px solid black;
+            font-weight:300;
+            max-width:98%;
+                      
         }
-        .card-img-top{
-            margin-top:10px;
+        tr,th{
+            border:1px solid black;
+            font-weight:300;
+            margin:15px;
+            padding:15px;
+            border-radius:15px;  
         }
-        .list-group-item,.list-group{
-            border:none;
-        }
-        .card-body,.card-text{
-            /* border-bottom:none;
-            border-top:none; */
-            border:none;
-        }
-        
-        
-        
     </style>
 </head>
 <body>
-
-    <header>
+     <header>
         <a href="acceuil.php"><img src="../configuration/images/logoagence.jpeg" id="logo" alt="logo"></a>
-        
         <form action="" method="POST" id="search-bar">
             <input type="search" id="search" name="barre" placeholder="Rechercher un bien immobilier">
             <button type="submit" id="search-button">
@@ -265,58 +222,50 @@
         </ul>
     </nav>
     <div class="menu-overlay" id="overlay" onclick="closeMenu()"></div>
-    <div class="bloc">
-        <div class="hero">
-            <img src="../configuration/images/villa.jpg" id="fond" alt="Image de fonds">
-            <?php
-                echo "<h1 id='mess'>Bienvenue ".$_SESSION['nom']."</h1>";
-            ?>
-        </div>
-        <div class="container">
+    
+    <div class="container">
+        <h1>Page de gestion des clients</h1>
         <?php
-           $select="SELECT B.*, (SELECT url FROM photos WHERE idBien = B.IdBien LIMIT 1) as url FROM bien_imm B WHERE B.idUser=:idUser";
-           $recup=$pdo->prepare($select);
-           $recup->execute([
-            ":idUser"=>$_SESSION['id'],
-           ]);
-           $bieninfo=$recup->fetchALL(PDO::FETCH_ASSOC);
-           if(!empty($bieninfo)){
-            echo "<div class='row'>";
-            foreach($bieninfo as $info){
-                echo "<div class='card col-md-4'  style='width: 18rem;'>";
-                    echo "<img src='".$info['url']."' class='card-img-top' alt='...'>"   ;         
-                    echo "<div class='card-body'>";
-                        echo '<h5 class="card-title">'.$info['titre'].'</h5>';
-                        echo '<p class="card-text">'.$info['Description'].'</p>';
-                    echo '</div>';
-                    echo '<ul class="list-group list-group-flush">';
-                        echo '<li class="list-group-item">Adresse:'.$info['Adresse'].'</li>';
-                        echo'<li class="list-group-item">Prix:'.$info['Prix_jour'].'</li>';
-                    echo '</ul>';
-                    echo '<div class="card-body">';
-                       echo "<form method='POST' action='detailsbien.php'>";
-                        echo "<input type='hidden' name='IdBien' value='".$info['IdBien']."'>";
-                        echo "<input type='submit' class='btn btn-primary' Value='Voir les details'>";
-                       echo "</form>";
-                    echo '</div>';
-
-
-                echo "</div>";
-            }
-            echo '</div>';   
-
-           }
-
-
+           $clients="SELECT * FROM users WHERE type <> 'Commercial'";
+           $client=$pdo->prepare($clients);
+           $client->execute();
+           $users=$client->fetchAll(PDO::FETCH_ASSOC)
         ?>
-
-        </div>
+        <table>
+            <tr>
+                <th>Nom</th>
+                <th>Date de Naissance</th>
+                <th>Adresse</th>
+                <th>Mail</th>
+                <th>Status</th>
+            </tr>
+            <?php
+               foreach($users as $us){
+                    echo "<tr>";
+                    echo "<th>".$us['nom']."</th>";
+                    echo "<th>".$us['date']."</th>";
+                    echo "<th>".$us['adresse']."</th>";
+                    echo "<th>".$us['mail']."</th>";
+                    if($us['is_activated']==1){
+                        echo "<th>Active</th>";
+                    }
+                    else{
+                        echo "<th>Desactive</th>";
+                    }
+                    echo "<tr>";
+               }
+            ?>
+        </table>
     </div>
+
+
+    <footer class="bg-dark text-white text-center p-3 mt-5">
+        <p>© 2026 Agence Immobilière - Tous droits réservés</p>
+    </footer>
     
 </body>
 <script>
-       
-        function toggleMenu() {
+           function toggleMenu() {
             const menuPanel = document.getElementById("contenu");
             const overlay = document.getElementById("overlay");
             const burger = document.querySelector(".menu");
@@ -356,5 +305,6 @@
                 console.log('Chargement du contenu pour:', this.textContent);
             });
         });
-    </script>
+
+</script>
 </html>

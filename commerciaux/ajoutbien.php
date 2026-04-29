@@ -1,19 +1,26 @@
 <?php
+   session_start();
+
+   if (!isset($_SESSION['connected']) || $_SESSION['connected'] !== true) {
+       header("Location:authentification.php");
+       exit;
+   }
+
    require_once "../configuration/connexion.php";
    require_once "../configuration/verification.php";
-   session_start();
    $ext_ok = ['gif', 'jpg', 'jpeg', 'png'];
-   if(isset($_POST['type'],$_POST['sup'],$_POST['addr'],$_POST['nbre'],$_POST['price'],$_POST['desc'])){
-       $insertion="INSERT INTO bien_imm (Type,Superficie,Adresse,Description,Prix_jour,nbre_pieces,idUser) VALUES (:Type,:Superficie,:Adresse,:Description,:Prix_jour,:nbre_pieces,:idUser)";
+   if(isset($_POST['title'],$_POST['type'],$_POST['sup'],$_POST['addr'],$_POST['nbre'],$_POST['price'],$_POST['desc'])){
+       $insertion="INSERT INTO bien_imm (titre,Type,Superficie,Adresse,Description,Prix_jour,nbre_pieces,IdUser) VALUES (:titre,:Type,:Superficie,:Adresse,:Description,:Prix_jour,:nbre_pieces,:IdUser)";
        $insert=$pdo->prepare($insertion);
        $insert->execute(array(
+        ":titre"=>$_POST['title'],
          ":Type"=>$_POST['type'],
          ":Superficie"=>$_POST['sup'],
          ":Adresse"=>$_POST['addr'],
          ":Description"=>$_POST['desc'],
          ":Prix_jour"=>$_POST['price'],
          ":nbre_pieces"=>$_POST['nbre'],
-         ":idUser"=>$_SESSION['id']
+         ":IdUser"=>$_SESSION['id']
        ));
        if(isset($_FILES['images'])){
        $idproduit=$pdo->lastInsertId();
@@ -42,7 +49,7 @@
             }
             
         }
-        echo "Ajout reussi";
+        header ("Location: acceuil.php");
        }
        else{
           echo "Echec de l'ajout de l'image";

@@ -14,7 +14,7 @@
         if($resultat['password']==$_POST['password']){
             $_SESSION['connected']=true;
             $_SESSION['nom']=$resultat['nom'];
-            $_SESSION['id']=$resultat['idUser'];
+            $_SESSION['id']=$resultat['IdUser'];
             header("Location:acceuil.php");
             exit;
         }
