@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="icon"  href="../configuration/images/logoagence.jpeg">
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=logout" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=search" />
     <title>Gestion des clients</title>
@@ -26,15 +26,21 @@
             width:100%;
             min-height: 100vh;
             text-align:center;
-            display: flex; /* Active Flexbox sur le corps de la page */
-            flex-direction: column;
-        }
-        header{
             display:flex;
-            flex-direction:row;
-            align-items:center;
-            width:100%;
-
+            flex-direction:column;
+        }
+        header {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
+            z-index: 3000;
+            padding: 10px 0;
         }
         @keyframes typing{
             from {
@@ -45,8 +51,12 @@
             }
         }
         .menu {
-            order: 3; /* Place le menu en dernier */
+            order: 3;
             cursor: pointer;
+            position: relative;
+            z-index: 2000;
+            width: 35px;
+            margin-right: 20px;
         }
 
         #search-bar {
@@ -56,27 +66,66 @@
             flex-direction:row;
             
         }
-        #search{
-            border-radius:15px;
-            margin-right:5px;
-            width:200px;
-            outline:none;
-            border:none;
-            padding:5px;
-
-        }
-        #search-button{
-            height:30px;
-            border-radius:50%;
-            border:none;
-            width:30px;
-            
+           /* Container de la barre */
+        .search-container {
+            order: 2;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            background: #f8f9fa; /* Gris très clair */
+            border: 1px solid #ddd;
+            border-radius: 50px; /* Bordure très arrondie */
+            padding: 5px 15px;
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 500px; /* Largeur max pour ne pas envahir l'écran */
         }
 
-        #logo {
-            order: 1; /* Garde le logo au début */
+        /* Effet au survol/focus de la barre entière */
+        .search-container:focus-within {
+            background: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-color: #512da8; /* Couleur de ton thème */
         }
+
+        /* Le champ de texte */
+        .search-container input {
+            border: none;
+            background: transparent;
+            outline: none;
+            padding: 10px;
+            width: 100%;
+            font-size: 0.95rem;
+            color: #333;
+        }
+
+        /* Le bouton loupe */
+        #search-button {
+            background: #512da8; /* Couleur violette pro */
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease;
+            flex-shrink: 0; /* Empêche le bouton de s'écraser */
+        }
+
+        #search-button:hover {
+            background: #311b92;
+            transform: scale(1.1); /* Petit effet de zoom au survol */
+        }
+
+        #search-button .material-symbols-outlined {
+            font-size: 20px;
+        }
+
         #logo{
+            order: 1;
             height:50px;
             width:50px;
             border-radius:50%;
@@ -124,12 +173,11 @@
         .menu span {
             display: block;
             height: 4px;
-            background:#333;
-            margin: 5px 0;
-            width:35px;
-            transition:0.3s;
-            transform-origin:center;
-            border-radius:4px;
+            width: 100%;
+            background: #333;
+            margin: 6px 0;
+            transition: 0.4s;
+            border-radius: 2px;
         }
         .bloc{
             display:flex;
@@ -137,20 +185,14 @@
             align-items:center;
             justify-content:center;
         }
-        .menu {
-            width:28px;
-            padding:8px;
-            margin-right:30px;
-            z-index: 1200;
-        }
         .menu.active span:nth-child(1){
-            transform: translateY(9px) rotate(45deg);
+            transform: translateY(10px) rotate(45deg);
         }
         .menu.active span:nth-child(2){
             opacity:0;
         }
         .menu.active span:nth-child(3){
-            transform: translateY(-9px) rotate(-45deg);
+            transform: translateY(-10px) rotate(-45deg);
         }
         .menu-overlay {
             display: none;
@@ -181,7 +223,7 @@
         }
         table{
             border-collapse:collapse;
-            margin:40px auto;
+            margin:100px auto 40px;
             border:1px solid black;
             font-weight:300;
             max-width:98%;
@@ -207,17 +249,50 @@
         .bouton-success{
             background:#157347;
         }
+        .container{
+            width:100%;
+            flex:1;
+        }
+        footer {
+            margin-top: auto;
+            width: 100%;
+        }
+        /* Pour l'élément de liste */
+        .logout-item {
+            margin-top: 80%; /* Espace raisonnable après le dernier lien */
+            padding: 0 20px;
+            border-bottom: none !important; /* Enlever la ligne grise sous le bouton */
+        }
+
+        /* Le bouton lui-même */
+        #disconnect-btn {
+            display: flex;          /* Utilise flexbox pour l'alignement */
+            align-items: center;    /* Centre l'icône et le texte verticalement */
+            justify-content: center;/* Centre le contenu horizontalement */
+            background: #311b92;
+            color: white !important;
+            padding: 12px;
+            text-align: center;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        /* Optionnel : Ajuster la taille de l'icône spécifiquement dans le bouton */
+        #disconnect-btn .material-symbols-outlined {
+            font-size: 20px;
+        }
     </style>
 </head>
 <body>
      <header>
         <a href="acceuil.php"><img src="../configuration/images/logoagence.jpeg" id="logo" alt="logo"></a>
-        <form action="" method="POST" id="search-bar">
-            <input type="search" id="search" name="barre" placeholder="Rechercher un bien immobilier">
+        
+        <form action="" method="POST" id="search-bar" class="search-container">
+            <input type="search" name="barre" placeholder="Rechercher une villa, un appartement..." aria-label="Search">
             <button type="submit" id="search-button">
-                <span class="material-symbols-outlined">
-                    search
-                </span>
+                <span class="material-symbols-outlined">search</span>
             </button>
         </form>
         <div class="menu" onclick="toggleMenu()">
@@ -233,7 +308,15 @@
             <li><a href="ajout.php">Ajouter un bien</a></li>
             <li><a href="consult.php">Gestion de mes biens</a></li>
             <li><a href="gestionclient.php">Gestion des clients</a></li>
-            <button type="submit" id="disconnect"><a href="disconnect.php" class="deconnect">Se deconnecter</a></button>
+            <li><a href="gestionloc.php">Gestion des locations</a></li>
+            <li class="logout-item">
+                <a href="disconnect.php" id="disconnect-btn">
+                    <span class="material-symbols-outlined" style="vertical-align: middle; margin-right: 8px;">
+                        logout
+                    </span>
+                    Se déconnecter
+                </a>
+            </li>
         </ul>
     </nav>
     <div class="menu-overlay" id="overlay" onclick="closeMenu()"></div>
