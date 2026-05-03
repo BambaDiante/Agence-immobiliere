@@ -26,4 +26,5 @@ $stmt = $connexion->prepare($sql);
 $stmt->execute([$idBien, $idUser, $date_debut, $date_fin]);
 
 echo "Réservation effectuée avec succès !";
+echo "<a href='acceuil.php'>Retourner a l'acceuil</a>"
 ?>

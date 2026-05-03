@@ -244,7 +244,6 @@
                     
         }
         input[type="submit"]{
-            background:lightgreen;
             padding:5px;
             border-radius:10px;
             border:1px solid black;
@@ -282,14 +281,20 @@
         #disconnect-btn .material-symbols-outlined {
             font-size: 20px;
         }
+        .val{
+            background:lightgreen;
+        }
+        .anu{
+            background:red;
+        }
         
     </style>
 </head>
 <body>
     <header>
         <a href="acceuil.php"><img src="../configuration/images/logoagence.jpeg" id="logo" alt="logo"></a>
-        <form action="" method="POST" id="search-bar" class="search-container">
-            <input type="search" name="barre" placeholder="Rechercher une villa, un appartement..." aria-label="Search">
+        <form action="rlocation.php" method="POST" id="search-bar" class="search-container">
+            <input type="search" name="barre" placeholder="Rechercher une location" aria-label="Search">
             <button type="submit" id="search-button">
                 <span class="material-symbols-outlined">search</span>
             </button>
@@ -322,7 +327,7 @@
     <div class="container">
         <h1>Valider les locations</h1>
         <?php
-        $loc="SELECT l.idLoc, l.idBien, l.duree, l.dateDebut, l.prix, u.nom, p.url
+        $loc="SELECT l.idLoc, l.idBien, l.duree, l.dateDebut,l.is_validated, l.prix, u.nom, p.url
                 FROM location l
                 JOIN users u ON u.idUser = l.idUser
                 JOIN bien_imm b ON b.IdBien = l.idBien
@@ -358,10 +363,19 @@
                 echo "<td>".$l['dateDebut']."</td>";
                 echo "<td>".$l['prix']."</td>";
                 echo "<td>";
-                echo "<form method='POSt' action='validate.php'>";
-                echo "<input type='hidden' name='id' value='".$l['idLoc']."'>";
-                echo "<input type='submit' name='val' value='Valider'>";
-                echo "</form>";
+               
+                if($l['is_validated']==0){
+                    echo "<form method='POST' action='validate.php'>";
+                    echo "<input type='hidden' name='id' value='".$l['idLoc']."'>";
+                    echo "<input type='submit' class='val' name='val' value='Valider'>";
+                    echo "</form>";
+                }
+                else{
+                    echo "<form method='POSt' action='validate.php'>";
+                    echo "<input type='hidden' name='id' value='".$l['idLoc']."'>";
+                    echo "<input type='submit' class='anu' name='anu' value='Annuler'>";
+                    echo "</form>";                    
+                }
                 echo "</td>";
                 echo "</tr>";
             }

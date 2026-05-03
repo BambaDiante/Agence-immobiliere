@@ -283,14 +283,25 @@
         #disconnect-btn .material-symbols-outlined {
             font-size: 20px;
         }
+        form{
+            margin:5px;
+        }
+        .histo{
+            padding:15px;
+            border-radius:15px;
+            color:white;
+            font-size:15px;
+            background:#311b92;
+            border:none;
+        }
     </style>
 </head>
 <body>
      <header>
         <a href="acceuil.php"><img src="../configuration/images/logoagence.jpeg" id="logo" alt="logo"></a>
         
-        <form action="" method="POST" id="search-bar" class="search-container">
-            <input type="search" name="barre" placeholder="Rechercher une villa, un appartement..." aria-label="Search">
+        <form action="rclient.php" method="POST" id="search-bar" class="search-container">
+            <input type="search" name="barre" placeholder="Rechercher un client" aria-label="Search">
             <button type="submit" id="search-button">
                 <span class="material-symbols-outlined">search</span>
             </button>
@@ -336,7 +347,8 @@
                 <th>Adresse</th>
                 <th>Mail</th>
                 <th>Status</th>
-                <th>Boutons</th>
+                <th>Actions</th>
+                <th>Consulter l'historique</th>
             </tr>
             <?php
                foreach($users as $us){
@@ -352,8 +364,6 @@
                         echo "<input type='hidden' name='idUser' value=".$us['IdUser'].">";
                         echo "<input type='submit' class='bouton bouton-danger' value='Desactiver'>";
                         echo "</form>";
-                        echo "</th>";
-
                     }
                     else{
                         echo "<th>Desactive</th>";
@@ -361,11 +371,21 @@
                         echo "<form action='actuser.php' method='POST'>";
                         echo "<input type='hidden' name='idusers' value=".$us['IdUser'].">";
                         echo "<input type='submit' class='bouton bouton-success'  value='Activer'>";
-                        echo "</form>";
-                        echo "</th>";
+                        echo "</form>";                    
 
                     }
-                    
+                    echo "<form action='deleteuser.php' method='POST'>";
+                        echo "<input type='hidden' name='idusers' value=".$us['IdUser'].">";
+                        echo "<input type='submit' class='bouton bouton-danger'  value='Supprimer l'utilisateur'>";
+                    echo "</form>";   
+                    echo "</th>";
+                    echo "<th>";
+                    echo "<form action='consulthisto.php' method='POST'>";
+                        echo "<input type='hidden' name='idusers' value=".$us['IdUser'].">";
+                        echo "<input type='hidden' name='nom' value=".$us['nom'].">";
+                        echo "<input type='submit' class='histo'  value='consulter son historique'>";
+                    echo "</form>";   
+                    echo "</th>";                    
                     echo "<tr>";
                }
             ?>

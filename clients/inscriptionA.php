@@ -13,8 +13,7 @@
         $sql = "INSERT INTO users(nom, mail, adresse, date, password, type, is_activated)VALUES (?, ?, ?, ?, ?, ?, ?)";
         $rsql = $connexion->prepare($sql);
         $rsql->execute([$name, $mail, $adresse, $date, $password, $type, $activation]);
-        header("Location: details.php");
-        echo"Vous etes inscris";
+        header("Location: acceuil.php");
         exit;
      }
 ?>

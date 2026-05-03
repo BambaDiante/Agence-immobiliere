@@ -1,4 +1,23 @@
 
+<?php
+    require_once __DIR__ . '/../vendor/autoload.php';
+    $oauthConfigPath = __DIR__ . '/../configuration/oauth.local.php';
+    if (!file_exists($oauthConfigPath)) {
+        die("Fichier OAuth local manquant: configuration/oauth.local.php");
+    }
+    $oauth = require $oauthConfigPath;
+
+    $clientID = $oauth['client_id'] ?? '';
+    $redirectUri = $oauth['redirect_uri'] ?? 'http://localhost/agenceimm/verif.php';
+
+    $client = new Google_Client();
+    $client->setClientId($clientID);
+    $client->setRedirectUri($redirectUri);
+    $client->addScope("email");
+    $client->addScope("profile");
+
+    $google_auth_url = $client->createAuthUrl();
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -85,6 +104,7 @@
             flex-direction: column;
             padding: 0 40px;
             height: 100%;
+            position:relative;
         }
 
         .container input{
@@ -220,6 +240,22 @@
         .container.active .toggle-right{
             transform: translateX(200%);
         }
+        #mdp {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            z-index: 10;
+        }
+       
+        .input-with-icon {
+            position: relative;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
     </style>
 </head>
 
@@ -230,7 +266,7 @@
             <form action="inscription.php" method="POST">
                 <h1>Creer un compte</h1>
                 <div class="social-icons">
-                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                    <a href="<?php echo $google_auth_url; ?>" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
 
                 </div>
                 <span>Ou utilisez un email pour vous inscrire</span>
@@ -238,7 +274,10 @@
                 <input type="email" name="mail" placeholder="Email" required>
                 <input type="date" name="date" placeholder="Date de naissance" required>
                 <input type="text" name="adresse" placeholder="Adresse" required>
-                <input type="password" name="password" placeholder="Mot de passe" required> 
+                <div class="input-with-icon">
+                    <input type="password" name="password"  id="password" placeholder="Mot de passe" required> 
+                    <img src="../configuration/images/see.png" alt="Icone mot de passe" id="mdp" onclick="voir(this)">
+                </div>
                 <button type="submit">S'inscrire</button>
             </form>
         </div>
@@ -246,12 +285,14 @@
             <form action="verification.php" method="POST">
                 <h1>Connectez vous</h1>
                 <div class="social-icons">
-                    <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                    <a href="<?php echo $google_auth_url; ?>" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
                 </div>
                 <span>Ou utilisez votre mail</span>
                 <input type="email" name="mail" placeholder="Email" required>
-                <input type="password" name="password" placeholder="Password" required>
-
+                <div class="input-with-icon">
+                    <input type="password" name="password" id="password" placeholder="Mot de passe" required> 
+                    <img src="../configuration/images/see.png" alt="Icone mot de passe" id="mdp" onclick="voir(this)">
+                </div>
                 <a href="#">Mot de passe oublie?</a>
                 <button type="submit">Se connecter</button>
             </form>
@@ -271,7 +312,6 @@
             </div>
         </div>
     </div>
-
     <script>
         const container = document.getElementById('container');
         const registerBtn = document.getElementById('register');
@@ -284,6 +324,19 @@
         loginBtn.addEventListener('click', () => {
             container.classList.remove("active");
         });
+        
+        function voir(icon){
+            const password = icon.previousElementSibling;
+
+            if (password.type === "password") {
+                password.type = "text";
+                icon.src = "../configuration/images/unsee.png";
+            }
+            else{
+                password.type = "password";
+                icon.src = "../configuration/images/see.png";
+            }
+        }
     </script>
 </body>
 

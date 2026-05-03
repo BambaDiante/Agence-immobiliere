@@ -1,18 +1,36 @@
 <?php
 session_start();
 require("bd.php");
-require("favoris.php");
+
+if(!isset($_SESSION['IdUser'])){
+    http_response_code(401); // non connecté
+    exit;
+}
+
+if(!isset($_GET['id']) || empty($_GET['id'])){
+    http_response_code(400); // requête invalide
+    exit("Aucun bien sélectionné.");
+}
 
 $idUser = $_SESSION['IdUser'];
-$idBien = $_GET['id'];
+$idBien = (int) $_GET['id']; // cast en entier pour éviter null ou injection
 
-// vérifier si existe
+// Vérifier que le bien existe en base
+$sqlBien = "SELECT IdBien FROM bien_imm WHERE IdBien=?";
+$stmtBien = $connexion->prepare($sqlBien);
+$stmtBien->execute([$idBien]);
+if(!$stmtBien->fetch()){
+    http_response_code(404); // bien inexistant
+    exit("Bien introuvable.");
+}
+
+// Vérifier si déjà favori
 $sql = "SELECT * FROM favoris WHERE idUser=? AND idBien=?";
 $stmt = $connexion->prepare($sql);
 $stmt->execute([$idUser, $idBien]);
 
 if($stmt->rowCount() > 0){
-    // supprimer (déjà en favori)
+    // supprimer
     $sql = "DELETE FROM favoris WHERE idUser=? AND idBien=?";
     $stmt = $connexion->prepare($sql);
     $stmt->execute([$idUser, $idBien]);
@@ -23,7 +41,6 @@ if($stmt->rowCount() > 0){
     $stmt->execute([$idUser, $idBien]);
 }
 
-// retour accueil
-header("Location: accueil.php");
+http_response_code(200);
 exit;
 ?>

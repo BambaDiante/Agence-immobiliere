@@ -359,7 +359,7 @@
     <header>
         <a href="acceuil.php"><img src="../configuration/images/logoagence.jpeg" id="logo" alt="logo"></a>
         
-        <form action="" method="POST" id="search-bar" class="search-container">
+        <form action="rconsult.php" method="POST" id="search-bar" class="search-container">
             <input type="search" name="barre" placeholder="Rechercher une villa, un appartement..." aria-label="Search">
             <button type="submit" id="search-button">
                 <span class="material-symbols-outlined">search</span>

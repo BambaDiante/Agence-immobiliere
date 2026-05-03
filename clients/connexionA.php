@@ -1,25 +1,29 @@
 <?php
     session_start();
     require("bd.php");
-    if(isset($_POST['submit']))
-    { 
-        $mail=$_POST['mail'];
-        $password=$_POST['password'];
-        $sql="SELECT*FROM users WHERE mail=? AND password=?";
-        $rsql=$connexion->prepare($sql);
-        $rsql->execute(array($mail,$password));
-        $user = $stmt->fetch();
 
-    if($user){
-        // ✅ ON STOCKE EN SESSION
-        $_SESSION['idUser'] = $user['idUser']; // adapte au nom de ta colonne
-        $_SESSION['nom'] = $user['nom'];
+    // vérifier utilisateur
+    $mail = $_POST['mail'];
+    $password = $_POST['password'];
 
-        // redirection correcte
-        header("Location: accueil.php");
-        exit;
+    $sql = "SELECT * FROM users WHERE mail=?";
+    $stmt = $connexion->prepare($sql);
+    $stmt->execute([$mail]);
+    $user = $stmt->fetch();
+
+    if($user && password_verify($password, $user['password'])){
+        
+        $_SESSION['IdUser'] = $user['IdUser'];
+
+        // REDIRECT IMPORTANT
+        if(!empty($_POST['redirect'])){
+            header("Location: " . $_POST['redirect']);
+        } else {
+            header("Location: acceuil.php");
+        }
+        exit();
+
     } else {
         echo "Email ou mot de passe incorrect";
     }
-    }    
-?>
+?>    

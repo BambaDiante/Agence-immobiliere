@@ -337,7 +337,72 @@
         #disconnect-btn .material-symbols-outlined {
             font-size: 20px;
         }
-                
+        /* Force les images à avoir la même hauteur et à remplir l'espace proprement */
+        .card-img-top {
+            height: 200px; /* Ajustez cette valeur selon votre préférence */
+            object-fit: cover; /* Recadre l'image pour remplir le cadre sans la déformer */
+        }
+
+        /* Assure que toutes les cartes d'une même ligne s'étirent sur toute la hauteur */
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            height: 100%; /* Force la carte à prendre 100% de la hauteur du parent .col */
+        }
+
+        /* Pousse le bouton vers le bas si le texte est plus court sur certaines cartes */
+        .card-body:last-child {
+            margin-top: auto;
+        }
+        /* --- Nouvelles Animations --- */
+
+/* 1. Animation Hero Zoom au chargement */
+.hero {
+    overflow: hidden; /* Important pour que le zoom ne dépasse pas */
+}
+
+#fond {
+    width: 95%;
+    height: 90vh;
+    border-radius: 15px;
+    object-fit: cover;
+    /* Animation de zoom */
+    animation: zoomInHero 1.5s ease-out;
+}
+
+@keyframes zoomInHero {
+    from { transform: scale(1.1); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* 2. Scroll Reveal (Apparition au défilement) */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.9s ease-out;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 3. Effet de survol sur les cartes */
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+    border: none;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.2) !important;
+}        
         
         
     </style>
@@ -347,12 +412,13 @@
     <header>
         <a href="acceuil.php"><img src="../configuration/images/logoagence.jpeg" id="logo" alt="logo"></a>
         
-        <form action="" method="POST" id="search-bar" class="search-container">
+        <form action="racceuil.php" method="POST" id="search-bar" class="search-container">
             <input type="search" name="barre" placeholder="Rechercher une villa, un appartement..." aria-label="Search">
             <button type="submit" id="search-button">
                 <span class="material-symbols-outlined">search</span>
             </button>
         </form>
+        
         <div class="menu" onclick="toggleMenu()">
             <span></span>
             <span></span>
@@ -396,28 +462,34 @@
            if(!empty($bieninfo)){
             echo "<div class='row'>";
             foreach($bieninfo as $info){
-                echo "<div class='card col-md-4'  style='width: 18rem;'>";
-                    echo "<img src='".$info['url']."' class='card-img-top' alt='...'>"   ;         
-                    echo "<div class='card-body'>";
-                        echo '<h5 class="card-title">'.$info['titre'].'</h5>';
-                        echo '<p class="card-text">'.$info['Description'].'</p>';
-                    echo '</div>';
-                    echo '<ul class="list-group list-group-flush">';
-                        echo '<li class="list-group-item">Adresse:'.$info['Adresse'].'</li>';
-                        echo'<li class="list-group-item">Prix:'.$info['Prix_jour'].'</li>';
-                    echo '</ul>';
-                    echo '<div class="card-body">';
-                       echo "<form method='POST' action='detailsbien.php'>";
-                        echo "<input type='hidden' name='IdBien' value='".$info['IdBien']."'>";
-                        echo "<input type='submit' class='btn btn-primary' Value='Voir les details'>";
-                       echo "</form>";
-                    echo '</div>';
-
-
+                // On utilise col-lg-4 col-md-6 pour un meilleur rendu responsive
+                echo "<div class='col-lg-4 col-md-6 mb-4 d-flex align-items-stretch reveal'>";
+                    echo "<div class='card h-100 w-100'>"; // h-100 force la hauteur égale
+                        echo "<img src='".$info['url']."' class='card-img-top' alt='Image du bien'>";         
+                        echo "<div class='card-body d-flex flex-column'>"; // flex-column pour aligner le bouton en bas
+                            echo '<h5 class="card-title">'.$info['titre'].'</h5>';
+                            echo '<p class="card-text">'.$info['Description'].'</p>';
+                            
+                            echo '<ul class="list-group list-group-flush mt-auto">'; // mt-auto pousse la liste vers le bas
+                                echo '<li class="list-group-item"><strong>Adresse:</strong> '.$info['Adresse'].'</li>';
+                                echo '<li class="list-group-item text-primary"><strong>Prix:</strong> '.$info['Prix_jour'].' €</li>';
+                            echo '</ul>';
+                            
+                            echo '<div class="mt-3">';
+                            echo "<form method='POST' action='detailsbien.php'>";
+                                echo "<input type='hidden' name='IdBien' value='".$info['IdBien']."'>";
+                                echo "<input type='submit' class='btn btn-primary w-100' value='Voir les détails'>";
+                            echo "</form>";
+                            echo '</div>';
+                        echo '</div>';
+                    echo "</div>";
                 echo "</div>";
             }
             echo '</div>';   
 
+           }
+           else{
+            echo "<h1>Vous n'avez pas encore de bien</h1>";
            }
 
 
@@ -472,5 +544,25 @@
                 console.log('Chargement du contenu pour:', this.textContent);
             });
         });
+        // Fonction pour détecter le défilement et révéler les éléments
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100; // Distance avant que l'élément n'apparaisse
+
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+
+        // Écouteur d'événement sur le scroll
+        window.addEventListener("scroll", reveal);
+
+        // Lancer une fois au chargement pour afficher les éléments déjà visibles
+        document.addEventListener("DOMContentLoaded", reveal);
 </script>
 </html>
