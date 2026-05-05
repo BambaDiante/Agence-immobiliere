@@ -282,10 +282,12 @@
             font-size: 20px;
         }
         .val{
-            background:lightgreen;
+            background:#157347;
+            color:white;
         }
         .anu{
-            background:red;
+            background:#bb2d3b;
+            color:white;
         }
         
     </style>
@@ -325,7 +327,7 @@
     </nav>
     <div class="menu-overlay" id="overlay" onclick="closeMenu()"></div>
     <div class="container">
-        <h1>Valider les locations</h1>
+        <h1>Gestion des locations</h1>
         <?php
         $loc="SELECT l.idLoc, l.idBien, l.duree, l.dateDebut,l.is_validated, l.prix, u.nom, p.url
                 FROM location l

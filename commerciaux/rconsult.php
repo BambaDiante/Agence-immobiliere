@@ -42,25 +42,147 @@
     <title>Résultats de gestion - Agence</title>
     <style>
         /* On réutilise exactement ton CSS de consult.php */
-        *{ margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
-        body{ background: linear-gradient(to right, #e2e2e2, #c9d6ff); background-attachment:fixed; min-height: 100vh; display:flex; flex-direction:column; text-align:center; }
-        header { display: flex; align-items: center; width: 100%; position: fixed; top: 0; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(5px); z-index: 3000; padding: 10px 0; }
-        #logo { height:50px; width:50px; border-radius:50%; margin-left:10px; }
-        .search-container { margin: 0 auto; display: flex; align-items: center; background: #f8f9fa; border: 1px solid #ddd; border-radius: 50px; padding: 5px 15px; width: 100%; max-width: 500px; }
-        .search-container input { border: none; background: transparent; outline: none; padding: 10px; width: 100%; }
-        #search-button { background: #512da8; color: white; border: none; border-radius: 50%; width: 38px; height: 38px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-        nav#contenu { position:fixed; top:0; right:-280px; width:280px; height:100%; background:#fff; z-index:1001; transition:right 0.3s; padding-top:60px; box-shadow:-2px 0 8px rgba(0,0,0,0.1); text-align: left; }
-        .menu { cursor: pointer; margin-right: 20px; z-index: 2000; width: 35px; order: 3; }
-        .menu span { display: block; height: 4px; background:#333; margin: 6px 0; border-radius:2px; }
-        .container { margin-top: 100px; flex: 1; }
-        table { border-collapse: collapse; margin: 40px auto; border: 1px solid black; background: white; width: 98%; }
-        th, td { border: 1px solid black; padding: 15px; }
-        #boutons { display: flex; border: none; justify-content: center; }
-        input[type="submit"] { margin: 5px; padding: 10px 15px; border-radius: 10px; color: white; border: none; cursor: pointer; }
-        #modif { background: #157347; }
-        #dele { background: #bb2d3b; }
-        #disconnect-btn { background: #311b92; color: white !important; padding: 12px; border-radius: 10px; text-decoration: none; font-weight: bold; display: flex; align-items: center; justify-content: center; margin: 20px; }
-        .menu-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 999; }
+        *{ 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Montserrat', sans-serif; 
+        }
+        body{ 
+            background: linear-gradient(to right, #e2e2e2, #c9d6ff); 
+            background-attachment:fixed; 
+            min-height: 100vh; 
+            display:flex; 
+            flex-direction:column; 
+            text-align:center; 
+        }
+        header { 
+            display: flex; 
+            align-items: center; 
+            width: 100%; 
+            position: fixed; 
+            top: 0; 
+            background: rgba(255, 255, 255, 0.9); 
+            backdrop-filter: blur(5px); 
+            z-index: 3000; 
+            padding: 10px 0; 
+        }
+        #logo { 
+            height:50px; 
+            width:50px; 
+            border-radius:50%; 
+            margin-left:10px; 
+        }
+        .search-container { 
+            margin: 0 auto; 
+            display: flex; 
+            align-items: center; 
+            background: #f8f9fa; 
+            border: 1px solid #ddd; 
+            border-radius: 50px; 
+            padding: 5px 15px; 
+            width: 100%; 
+            max-width: 500px; 
+        }
+        .search-container input { 
+            border: none; 
+            background: transparent; 
+            outline: none; 
+            padding: 10px; 
+            width: 100%; 
+        }
+        #search-button { 
+            background: #512da8; 
+            color: white; 
+            border: none; 
+            border-radius: 50%; 
+            width: 38px; 
+            height: 38px; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+        }
+        nav#contenu { 
+            position:fixed; 
+            top:0; 
+            right:-280px; 
+            width:280px; 
+            height:100%; 
+            background:#fff; 
+            z-index:1001; 
+            transition:right 0.3s; 
+            padding-top:60px; 
+            box-shadow:-2px 0 8px rgba(0,0,0,0.1); 
+            text-align: left; 
+        }
+        .menu { 
+            cursor: pointer; 
+            margin-right: 20px; 
+            z-index: 2000; 
+            width: 35px; 
+            order: 3; 
+        }
+        .menu span { 
+            display: block; 
+            height: 4px; 
+            background:#333; 
+            margin: 6px 0; 
+            border-radius:2px; 
+        }
+        .container { 
+            margin-top: 100px; 
+            flex: 1; 
+        }
+        table { 
+            border-collapse: collapse; 
+            margin: 40px auto; 
+            border: 1px solid black; 
+            background: white; 
+            width: 98%; 
+        }
+        th, td { 
+            border: 1px solid black; 
+            padding: 15px; 
+        }
+        #boutons { 
+            display: flex; 
+            border: none; 
+            justify-content: center; 
+        }
+        input[type="submit"] { 
+            margin: 5px; 
+            padding: 10px 15px; 
+            border-radius: 10px; 
+            color: white; 
+            border: none; 
+            cursor: pointer; 
+        }
+        #modif { 
+            background: #157347; 
+        }
+        #dele { 
+            background: #bb2d3b; 
+        }
+        #disconnect-btn { 
+            background: #311b92; 
+            color: white !important; 
+            padding: 12px; 
+            border-radius: 10px; 
+            text-decoration: none; 
+            font-weight: bold; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            margin: 20px; 
+        }
+        .menu-overlay { 
+            display: none; 
+            position: fixed; 
+            inset: 0; 
+            background: rgba(0,0,0,0.7); 
+            z-index: 999; 
+        }
     </style>
 </head>
 <body>

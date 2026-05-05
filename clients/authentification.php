@@ -81,7 +81,6 @@
             flex-direction: column;
             padding: 0 40px;
             height: 100%;
-            position:relative;
         }
 
         .container input{
@@ -250,8 +249,9 @@
                 <input type="email" name="mail" placeholder="Email" required>
                 <input type="date" name="date" placeholder="Date de naissance" required>
                 <input type="text" name="adresse" placeholder="Adresse" required>
+                <input text="number" name="numero" placeholder="779379785" required/>
                 <div class="input-with-icon">
-                    <input type="password" name="password"  id="password" placeholder="Mot de passe" required> 
+                    <input type="password" name="password" id="password" placeholder="Mot de passe" required> 
                     <img src="../configuration/images/see.png" alt="Icone mot de passe" id="mdp" onclick="voir(this)">
                 </div>
                 <button type="submit" name="inscription">S'inscrire</button>
@@ -264,12 +264,12 @@
                     <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
                 </div>
                 <span>Ou utilisez votre mail</span>
-                <input type="hidden" name="redirect" value="<?= $_GET['redirect'] ?? '' ?>">
                 <input type="email" name="mail" placeholder="Email" required>
                 <div class="input-with-icon">
                     <input type="password" name="password" id="password" placeholder="Mot de passe" required> 
                     <img src="../configuration/images/see.png" alt="Icone mot de passe" id="mdp" onclick="voir(this)">
                 </div>
+
                 <a href="#">Mot de passe oublie?</a>
                 <button type="submit" name="submit">Se connecter</button>
             </form>
@@ -291,7 +291,7 @@
     </div>
 
     <script>
-            const container = document.getElementById('container');
+        const container = document.getElementById('container');
         const registerBtn = document.getElementById('register');
         const loginBtn = document.getElementById('login');
 
@@ -302,7 +302,6 @@
         loginBtn.addEventListener('click', () => {
             container.classList.remove("active");
         });
-        
         function voir(icon){
             const password = icon.previousElementSibling;
 

@@ -216,6 +216,22 @@
         .container.active .toggle-right{
             transform: translateX(200%);
         }
+        #mdp {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            z-index: 10;
+        }
+       
+        .input-with-icon {
+            position: relative;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
     </style>
 </head>
 
@@ -233,7 +249,11 @@
                 <input type="email" name="mail" placeholder="Email" required>
                 <input type="date" name="date" placeholder="Date de naissance" required>
                 <input type="text" name="adresse" placeholder="Adresse" required>
-                <input type="password" name="password" placeholder="Mot de passe" required> 
+                <input type="number" name="numero" placeholder="775460978" required/>
+                <div class="input-with-icon">
+                    <input type="password" name="password" id="password" placeholder="Mot de passe" required> 
+                    <img src="../configuration/images/see.png" alt="Icone mot de passe" id="mdp" onclick="voir(this)">
+                </div>
                 <button type="submit" name="inscription">S'inscrire</button>
             </form>
         </div>
@@ -245,7 +265,10 @@
                 </div>
                 <span>Ou utilisez votre mail</span>
                 <input type="email" name="mail" placeholder="Email" required>
-                <input type="password" name="password" placeholder="Password" required>
+                <div class="input-with-icon">
+                    <input type="password" name="password" id="password" placeholder="Mot de passe" required> 
+                    <img src="../configuration/images/see.png" alt="Icone mot de passe" id="mdp" onclick="voir(this)">
+                </div>
 
                 <a href="#">Mot de passe oublie?</a>
                 <button type="submit" name="submit">Se connecter</button>
@@ -279,6 +302,18 @@
         loginBtn.addEventListener('click', () => {
             container.classList.remove("active");
         });
+        function voir(icon){
+            const password = icon.previousElementSibling;
+
+            if (password.type === "password") {
+                password.type = "text";
+                icon.src = "../configuration/images/unsee.png";
+            }
+            else{
+                password.type = "password";
+                icon.src = "../configuration/images/see.png";
+            }
+        }
     </script>
 </body>
 

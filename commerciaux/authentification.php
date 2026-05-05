@@ -25,7 +25,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="icon"  href="../configuration/images/logoagence.jpeg">
-    <link rel="icon"  href="../configuration/images/logoagence.jpeg">
 
     <title>Interface de connexion| Interface d'authentification </title>
     <style>
@@ -274,6 +273,9 @@
                 <input type="email" name="mail" placeholder="Email" required>
                 <input type="date" name="date" placeholder="Date de naissance" required>
                 <input type="text" name="adresse" placeholder="Adresse" required>
+                <input type="text" name="tel" placeholder="Numero de telephone" required>
+                <input type="text" name="lien" placeholder="Lien marchand" required>
+
                 <div class="input-with-icon">
                     <input type="password" name="password"  id="password" placeholder="Mot de passe" required> 
                     <img src="../configuration/images/see.png" alt="Icone mot de passe" id="mdp" onclick="voir(this)">

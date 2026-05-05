@@ -19,3 +19,156 @@
     border: 1px solid white;
     border-radius: 10px;
 }
+header,
+header.navbar {
+    width: 100%;
+}
+
+header,
+header.navbar .container-fluid {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 0.75rem;
+}
+
+header.navbar .container-fluid {
+    min-width: 0;
+}
+
+header img,
+header.navbar img,
+header #logo {
+    flex: 0 0 auto;
+    display: block;
+}
+
+header #search-bar,
+header.navbar form,
+header .search-container {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+header .search-container input,
+header.navbar .form-control {
+    min-width: 0;
+}
+
+header .menu,
+header.navbar .dropdown {
+    flex: 0 0 auto;
+}
+
+@media (max-width: 1024px) {
+    header,
+    header.navbar .container-fluid {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+        gap: 0.5rem;
+    }
+
+    header #logo,
+    header.navbar img,
+    header img {
+        width: 54px !important;
+        height: 54px !important;
+        object-fit: cover;
+    }
+
+    header #search-bar,
+    header.navbar form,
+    header .search-container {
+        max-width: none !important;
+        width: auto !important;
+    }
+
+    header .search-container,
+    header.navbar form {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    header .search-container input,
+    header.navbar .form-control {
+        font-size: 0.95rem;
+    }
+
+    header .menu,
+    header.navbar .dropdown .btn {
+        margin-right: 0 !important;
+        flex-shrink: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    header,
+    header.navbar .container-fluid {
+        gap: 0.4rem;
+    }
+
+    header #logo,
+    header.navbar img,
+    header img {
+        width: 46px !important;
+        height: 46px !important;
+    }
+
+    header .search-container,
+    header.navbar form {
+        flex: 1 1 auto;
+    }
+
+    header .search-container {
+        padding: 4px 10px;
+    }
+
+    header .search-container input,
+    header.navbar .form-control {
+        padding: 8px 6px;
+        font-size: 0.88rem;
+    }
+
+    header #search-button,
+    header.navbar .btn {
+        width: 34px;
+        height: 34px;
+        padding: 0;
+    }
+
+    header .menu span {
+        width: 28px;
+        height: 3px;
+        margin: 4px 0;
+    }
+}
+
+@media (max-width: 576px) {
+    header,
+    header.navbar .container-fluid {
+        gap: 0.3rem;
+        padding-left: 8px !important;
+        padding-right: 8px !important;
+    }
+
+    header #logo,
+    header.navbar img,
+    header img {
+        width: 40px !important;
+        height: 40px !important;
+    }
+
+    header .search-container input,
+    header.navbar .form-control {
+        font-size: 0.82rem;
+    }
+
+    header .search-container input::placeholder,
+    header.navbar .form-control::placeholder {
+        font-size: 0.82rem;
+    }
+
+    header .dropdown-menu {
+        font-size: 0.92rem;
+    }
+}

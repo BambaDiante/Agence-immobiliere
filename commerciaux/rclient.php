@@ -36,29 +36,159 @@
     <title>Résultats Recherche Clients</title>
     <style>
         /* Reprise exacte de vos styles pour la cohérence visuelle */
-        *{ margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
-        body{ background: linear-gradient(to right, #e2e2e2, #c9d6ff); background-attachment:fixed; min-height: 100vh; text-align:center; display:flex; flex-direction:column; }
-        header { display: flex; align-items: center; width: 100%; position: fixed; top: 0; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(5px); z-index: 3000; padding: 10px 0; }
-        #logo { height:50px; width:50px; border-radius:50%; margin-left:10px; }
-        .search-container { margin: 0 auto; display: flex; align-items: center; background: #f8f9fa; border: 1px solid #ddd; border-radius: 50px; padding: 5px 15px; width: 100%; max-width: 500px; }
-        .search-container input { border: none; background: transparent; outline: none; padding: 10px; width: 100%; }
-        #search-button { background: #512da8; color: white; border: none; border-radius: 50%; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        *{ 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Montserrat', sans-serif; 
+        }
+        body{ 
+            background: linear-gradient(to right, #e2e2e2, #c9d6ff); 
+            background-attachment:fixed; 
+            min-height: 100vh; 
+            text-align:center; 
+            display:flex; 
+            flex-direction:column; 
+        }
+        header { 
+            display: flex; 
+            align-items: center; 
+            width: 100%; 
+            position: fixed; 
+            top: 0; 
+            background: rgba(255, 255, 255, 0.9); 
+            backdrop-filter: blur(5px); 
+            z-index: 3000; 
+            padding: 10px 0; 
+        }
+        #logo { 
+            height:50px; 
+            width:50px; 
+            border-radius:50%; 
+            margin-left:10px; 
+        }
+        .search-container { 
+            margin: 0 auto; display: flex; 
+            align-items: center; 
+            background: #f8f9fa; 
+            border: 1px solid #ddd; 
+            border-radius: 50px; 
+            padding: 5px 15px; 
+            width: 100%; 
+            max-width: 500px; 
+        }
+        .search-container input { 
+            border: none; 
+            background: transparent; 
+            outline: none; 
+            padding: 10px; 
+            width: 100%; 
+        }
+        #search-button { 
+            background: #512da8; 
+            color: white; 
+            border: none; 
+            border-radius: 50%; 
+            width: 38px; 
+            height: 38px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            cursor: pointer; 
+        }
         
-        nav#contenu { position:fixed; top:0; right:-280px; width:280px; height:100%; background:#fff; z-index:1001; transition:right 0.3s; padding-top:60px; box-shadow:-2px 0 8px rgba(0,0,0,0.1); text-align: left; }
-        .menu { cursor: pointer; margin-right: 20px; z-index: 2000; width: 35px; order: 3; }
-        .menu span { display: block; height: 4px; background:#333; margin: 6px 0; border-radius:2px; }
+        nav#contenu { 
+            position:fixed; 
+            top:0; right:-280px; 
+            width:280px; 
+            height:100%; 
+            background:#fff; 
+            z-index:1001; 
+            transition:right 0.3s; 
+            padding-top:60px; 
+            box-shadow:-2px 0 8px rgba(0,0,0,0.1); 
+            text-align: left; 
+        }
+        .menu { 
+            cursor: pointer; 
+            margin-right: 20px; 
+            z-index: 2000; 
+            width: 35px; 
+            order: 3; 
+        }
+        .menu span { 
+            display: block; 
+            height: 4px; 
+            background:#333; 
+            margin: 6px 0; 
+            border-radius:2px; 
+        }
         
-        .container { flex: 1; margin-top: 100px; width: 100%; }
-        table { border-collapse: collapse; margin: 20px auto; border: 1px solid black; width: 98%; background: white; }
-        th, td { border: 1px solid black; padding: 15px; font-weight: 300; }
+        .container { 
+            flex: 1; 
+            margin-top: 100px; 
+            width: 100%; 
+        }
+        table { 
+            border-collapse: collapse; 
+            margin: 20px auto; 
+            border: 1px solid black; 
+            width: 98%; 
+            background: white; 
+        }
+        th, td { 
+            border: 1px solid black; 
+            padding: 15px; 
+            font-weight: 300; 
+        }
         
-        .bouton { padding:10px; border-radius:10px; color:white; width:95%; border:1px solid black; cursor: pointer; margin-bottom: 5px; }
-        .bouton-danger { background:#bb2d3b; }
-        .bouton-success { background:#157347; }
-        .histo { padding:10px; border-radius:15px; color:white; font-size:14px; background:#311b92; border:none; cursor: pointer; width: 100%; }
+        .bouton { 
+            padding:10px; 
+            border-radius:10px; 
+            color:white; 
+            width:95%; 
+            border:1px solid black; 
+            cursor: pointer; 
+            margin-bottom: 5px; 
+        }
+        .bouton-danger { 
+            background:#bb2d3b; 
+        }
+        .bouton-success { 
+            background:#157347; 
+        }
+        .histo { 
+            padding:10px; 
+            border-radius:15px; 
+            color:white; 
+            font-size:14px; 
+            background:#311b92; 
+            border:none; 
+            cursor: pointer; 
+            width: 100%; 
+        }
         
-        #disconnect-btn { background: #311b92; color: white !important; padding: 12px; border-radius: 10px; text-decoration: none; font-weight: bold; display: flex; align-items: center; justify-content: center; margin: 20px; margin-top: 80%; }
-        .menu-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 999; backdrop-filter: blur(3px); }
+        #disconnect-btn { 
+            background: #311b92; 
+            color: white !important; 
+            padding: 12px; 
+            border-radius: 10px; 
+            text-decoration: none; 
+            font-weight: bold; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            margin: 20px; 
+            margin-top: 80%; 
+        }
+        .menu-overlay { 
+            display: none; 
+            position: fixed; 
+            inset: 0; 
+            background: rgba(0,0,0,0.7); 
+            z-index: 999; 
+            backdrop-filter: blur(3px); 
+        }
     </style>
 </head>
 <body>

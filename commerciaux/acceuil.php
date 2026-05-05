@@ -472,7 +472,7 @@
                             
                             echo '<ul class="list-group list-group-flush mt-auto">'; // mt-auto pousse la liste vers le bas
                                 echo '<li class="list-group-item"><strong>Adresse:</strong> '.$info['Adresse'].'</li>';
-                                echo '<li class="list-group-item text-primary"><strong>Prix:</strong> '.$info['Prix_jour'].' €</li>';
+                                echo '<li class="list-group-item text-primary"><strong>Prix:</strong> '.$info['Prix_jour'].' FCFA</li>';
                             echo '</ul>';
                             
                             echo '<div class="mt-3">';

@@ -9,12 +9,23 @@
     if(isset($_POST['idusers'],$_POST['nom'])){
         $id=$_POST['idusers'];
         $nom=$_POST['nom'];
-        $sql="SELECT * FROM 
-        (SELECT * FROM historique NATURAL JOIN location) h
-        JOIN(SELECT b.IdBien,b.titre,p.url FROM bien_imm b 
-        JOIN photos p
-        ON b.IdBien=p.idBien LIMIT 1)
-        b ON h.idBien=b.IdBien AND h.idUser=:idUser";
+        $sql="SELECT 
+                l.*, 
+                b.titre, 
+                b.Description, 
+                b.Adresse, 
+                b.Prix_jour, 
+                p.url
+            FROM location l
+            JOIN bien_imm b ON l.idBien = b.IdBien
+            JOIN photos p   ON b.IdBien = p.idBien
+            WHERE l.idUser = :idUser 
+            AND p.id = (
+                SELECT MIN(p2.id) 
+                FROM photos p2 
+                WHERE p2.idBien = b.IdBien
+            )
+            ORDER BY l.dateDebut DESC";
         $requete=$pdo->prepare($sql);
         $requete->execute([
             ":idUser"=>$id
@@ -50,6 +61,44 @@
             text-align:center;
             display:flex;
             flex-direction:column;
+        }
+        /* Garder le footer en bas */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        /* Nouveau conteneur pour le contenu principal */
+        .main-content {
+            flex: 1; /* Force ce bloc à prendre tout l'espace disponible */
+            margin-top: 100px; /* Espace pour le header fixe */
+            padding: 20px;
+        }
+
+        /* Style pour l'historique vide */
+        .rien {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 50px;
+            margin: 50px auto;
+            max-width: 600px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .rien p {
+            font-size: 1.2rem;
+            color: #512da8;
+            font-weight: 500;
+        }
+
+        .rien i {
+            font-size: 4rem;
+            color: #512da8;
+            margin-bottom: 20px;
+            display: block;
         }
         header {
             display: flex;
@@ -277,7 +326,7 @@
     </style>
 </head>
 <body>
-    <!-- <header>
+    <header>
         <a href="acceuil.php"><img src="../configuration/images/logoagence.jpeg" id="logo" alt="logo"></a>
         
         <form action="" method="POST" id="search-bar" class="search-container">
@@ -310,32 +359,37 @@
             </li>
         </ul>
     </nav>
-    <div class="menu-overlay" id="overlay" onclick="closeMenu()"></div> -->
-    <?php
-       if(!empty($historique)){
-         echo "<h1>L'historique des reservation de ".$nom."</h1>";
-         echo "<div class='row'>";
-            foreach($historique as $histo){
-                echo "<div class='card col-md-4'  style='width: 18rem;'>";
-                    echo "<img src='".$histo['url']."' class='card-img-top' alt='...'>"   ;         
-                    echo "<div class='card-body'>";
-                        echo '<h5 class="card-title">Titre:'.$info['titre'].'</h5>';
-                        echo '<p class="card-text">'.$info['Description'].'</p>';
-                    echo '</div>';
-                    echo '<ul class="list-group list-group-flush">';
-                        echo '<li class="list-group-item">Adresse:'.$info['Adresse'].'</li>';
-                        echo'<li class="list-group-item">Prix:'.$info['Prix'].'</li>';
-                    echo '</ul>';
-                echo "</div>";
-            }
-            echo '</div>';  
-       }
-       else{
-        echo "<div class='rien'>";
-        echo "<p>L'historique de ".$nom." est vide</p>";
-        echo "</div>";
-       }
-    ?>
+    <div class="menu-overlay" id="overlay" onclick="closeMenu()"></div>
+    <div class="main-content">
+    <?php if(!empty($historique)): ?>
+        <h1 class="mb-4">L'historique des réservations de <?php echo htmlspecialchars($nom); ?></h1>
+        <div class="container">
+            <div class="row g-4 justify-content-center">
+                <?php foreach($historique as $histo): ?>
+                    <div class="col-md-4 d-flex justify-content-center">
+                        <div class="card shadow-sm h-100" style="width: 18rem; border-radius: 15px; overflow: hidden;">
+                            <img src="<?php echo $histo['url']; ?>" class="card-img-top" alt="Bien" style="height: 200px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary"><?php echo $histo['titre']; ?></h5>
+                                <p class="card-text text-muted small"><?php echo substr($histo['Description'] ?? '', 0, 100) . '...'; ?></p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"><i class="fa-solid fa-location-dot me-2"></i><?php echo $histo['Adresse'] ?? 'N/A'; ?></li>
+                                <li class="list-group-item"><strong>Prix: <?php echo $histo['Prix_jour'] ; ?> FCFA</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    <?php else: ?>
+        <!-- Rendu stylisé quand c'est vide -->
+        <div class="rien">
+            <p>L'historique de <strong><?php echo htmlspecialchars($nom); ?></strong> est actuellement vide.</p>
+            <a href="gestionclient.php" class="btn btn-outline-primary mt-3">Retour à la gestion des clients</a>
+        </div>
+    <?php endif; ?>
+</div>
     <footer class="bg-dark text-white text-center p-3 mt-5">
         <p>© 2026 Agence Immobilière - Tous droits réservés</p>
     </footer>

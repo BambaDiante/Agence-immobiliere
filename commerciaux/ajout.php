@@ -71,14 +71,16 @@
             max-width:70%;
             max-height:400px;        
         }
+        footer {
+            margin-top: auto;
+            width: 100%;
+        }
         
 
     </style>
 </head>
 <body>
-    <?php
-        echo "<h1>".$_SESSION['nom']."</h1>";
-    ?>
+   
     <h2>Formulaire d'ajout de bien immobilier</h2>
     <form action="ajoutbien.php" method="POST" enctype="multipart/form-data">
 
@@ -96,5 +98,10 @@
         <input type="file" name="images[]" accept="image/gif, image/jpeg , image/png" multiple>
         <input type="submit" value="Ajouter">
     </form>
+        <footer class="bg-dark text-white text-center p-3 mt-5">
+        <p>© 2026 Agence Immobilière - Tous droits réservés</p>
+    </footer>
+    
+
 </body>
 </html>

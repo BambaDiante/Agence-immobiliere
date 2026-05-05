@@ -36,6 +36,56 @@ function getImage($connexion, $id){
     <meta charset="UTF-8">
     <title>Mes réservations</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+     <style>
+        body {
+            background: #fdf6e3; /* beige clair */
+            font-family: 'Georgia', serif;
+            color: #333;
+        }
+
+        /* Conteneur centré */
+        .form-container {
+            max-width: 500px; /* largeur réduite */
+            margin: 60px auto; /* centré horizontalement et espacé verticalement */
+            padding: 30px;
+            background: #fffaf0; /* blanc cassé */
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Titre */
+        .form-container h2 {
+            text-align: center;
+            color: #d4af37; /* doré */
+            margin-bottom: 25px;
+        }
+
+        /* Champs */
+        .form-container .form-control {
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            font-size: 15px;
+        }
+
+        /* Bouton */
+        .form-container .btn-success {
+            display: block;
+            width: 100%;
+            background-color: #28a745; /* vert */
+            color: #fff;
+            font-weight: bold;
+            border-radius: 8px;
+            padding: 12px;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-container .btn-success:hover {
+            background-color: #218838; /* vert plus foncé */
+        }
+
+
+    </style>
 </head>
 
 <body>
@@ -65,7 +115,7 @@ function getImage($connexion, $id){
                 <?php $img = getImage($connexion, $r['idBien']); ?>
 
                 <?php if($img): ?>
-                    <img src="http://localhost:8888/PROJET/agenceImm/commerciaux/<?= $img['url'] ?>"
+                    <img src="http://localhost/agenceImm/commerciaux/<?= $img['url'] ?>"
                          style="width:100%; height:200px; object-fit:cover;">
                 <?php else: ?>
                     <img src="imageL/default.jpg"
@@ -74,7 +124,7 @@ function getImage($connexion, $id){
 
                 <div class="card-body">
 
-                    <h5><?= $r['Type'] ?></h5>
+                    <h5><?= ($r['Type']=='app' ? 'Appartement':'Villa') ?></h5>
 
                     <p>
                         📍 <?= $r['Adresse'] ?><br>

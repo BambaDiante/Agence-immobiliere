@@ -7,14 +7,14 @@
         $mail = $_POST['mail'];
         $adresse = $_POST['adresse'];
         $password = $_POST['password'];
+        $motDePasseHache = password_hash($password, PASSWORD_DEFAULT);
         $date = $_POST['date'];
         $type = "client";
         $activation = 1;
         $sql = "INSERT INTO users(nom, mail, adresse, date, password, type, is_activated)VALUES (?, ?, ?, ?, ?, ?, ?)";
         $rsql = $connexion->prepare($sql);
-        $rsql->execute([$name, $mail, $adresse, $date, $password, $type, $activation]);
+        $rsql->execute([$name, $mail, $adresse, $date, $motDePasseHache, $type, $activation]);
         header("Location: acceuil.php");
-        echo"Vous etes inscris";
         exit;
      }
 ?>
