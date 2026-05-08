@@ -274,7 +274,7 @@
                 <input type="date" name="date" placeholder="Date de naissance" required>
                 <input type="text" name="adresse" placeholder="Adresse" required>
                 <input type="text" name="tel" placeholder="Numero de telephone" required>
-                <input type="text" name="lien" placeholder="Lien marchand" required>
+                <input type="text" name="lien" placeholder="Lien marchand">
 
                 <div class="input-with-icon">
                     <input type="password" name="password"  id="password" placeholder="Mot de passe" required> 

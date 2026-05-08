@@ -2,29 +2,36 @@
     session_start();
     require("bd.php");
 
-    // vérifier utilisateur
-    $mail = $_POST['mail'];
-    $password = $_POST['password'];
     $error_message = "";
-    $sql = "SELECT * FROM users WHERE mail=?";
-    $stmt = $connexion->prepare($sql);
-    $stmt->execute([$mail]);
-    $user = $stmt->fetch();
-    //var_dump($user);
-    //exit;
-    if($user && password_verify($password, $user['password'])){
-        
-        $_SESSION['IdUser'] = $user['IdUser'];
-        // REDIRECT IMPORTANT
-        if(!empty($_POST['redirect'])){
-            header("Location: " . $_POST['redirect']);
+
+    if (isset($_POST['mail'], $_POST['password'])) {
+        $mail = trim($_POST['mail']);
+        $password = $_POST['password'];
+
+        $sql = "SELECT * FROM users WHERE mail=?";
+        $stmt = $connexion->prepare($sql);
+        $stmt->execute([$mail]);
+        $user = $stmt->fetch();
+
+        if ($user) {
+            if (password_verify($password, $user['password'])) {
+                $_SESSION['IdUser'] = $user['IdUser'];
+
+                // REDIRECT IMPORTANT
+                if (!empty($_POST['redirect'])) {
+                    header("Location: " . $_POST['redirect']);
+                } else {
+                    header("Location: acceuil.php");
+                }
+                exit();
+            } else {
+                $error_message = "Mot de passe incorrect";
+            }
         } else {
-            header("Location: acceuil.php");
+            $error_message = "Utilisateur introuvable";
         }
-        exit();
-       
     } else {
-        $error_message =  "Email ou mot de passe incorrect";
+        $error_message = "Informations manquantes";
     }
 
 

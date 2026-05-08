@@ -353,6 +353,111 @@
         #disconnect-btn .material-symbols-outlined {
             font-size: 20px;
         }
+
+        .empty-biens {
+            width: min(100%, 820px);
+            margin: 30px auto 10px;
+            padding: 34px 24px;
+            border-radius: 20px;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(241, 236, 255, 0.95));
+            border: 1px solid rgba(81, 45, 168, 0.16);
+            box-shadow: 0 16px 36px rgba(17, 12, 46, 0.12);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .empty-biens::before {
+            content: "";
+            position: absolute;
+            width: 170px;
+            height: 170px;
+            border-radius: 50%;
+            top: -70px;
+            right: -55px;
+            background: radial-gradient(circle, rgba(81, 45, 168, 0.16), rgba(81, 45, 168, 0));
+        }
+
+        .empty-biens::after {
+            content: "";
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            bottom: -65px;
+            left: -55px;
+            background: radial-gradient(circle, rgba(25, 135, 84, 0.14), rgba(25, 135, 84, 0));
+        }
+
+        .empty-icon {
+            width: 74px;
+            height: 74px;
+            margin: 0 auto 14px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            font-weight: 700;
+            color: #311b92;
+            background: rgba(81, 45, 168, 0.12);
+            border: 1px solid rgba(81, 45, 168, 0.26);
+            position: relative;
+            z-index: 1;
+        }
+
+        .empty-biens h2 {
+            margin: 0 0 10px;
+            color: #1f1f2e;
+            font-size: clamp(1.35rem, 2.6vw, 1.95rem);
+            position: relative;
+            z-index: 1;
+        }
+
+        .empty-biens p {
+            margin: 0 auto 22px;
+            width: min(100%, 580px);
+            color: #4c4f69;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        .empty-biens .btn-empty {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(135deg, #512da8, #311b92);
+            box-shadow: 0 10px 22px rgba(49, 27, 146, 0.3);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .empty-biens .btn-empty:hover {
+            transform: translateY(-2px);
+            color: #fff;
+            box-shadow: 0 14px 28px rgba(49, 27, 146, 0.38);
+        }
+
+        @media (max-width: 576px) {
+            .empty-biens {
+                padding: 28px 16px;
+                border-radius: 16px;
+            }
+
+            .empty-icon {
+                width: 64px;
+                height: 64px;
+                font-size: 26px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -408,6 +513,17 @@
             </div>
         <?php endif; ?>
 
+        <?php if (empty($bieninfo)) { ?>
+            <div class="empty-biens">
+                <div class="empty-icon">0</div>
+                <h2>Aucun bien a gerer pour le moment</h2>
+                <p>
+                    Vous n'avez encore enregistré aucun bien. Ajoutez votre premier bien pour commencer à le gérer,
+                    le modifier ou le supprimer depuis cet espace.
+                </p>
+                <a href="ajout.php" class="btn-empty">Ajouter mon premier bien</a>
+            </div>
+        <?php } else { ?>
         <table>
             <tr>
                 <th>ID</th>
@@ -456,6 +572,7 @@
                 }
             ?>
         </table>
+        <?php } ?>
     </div>
     <footer class="bg-dark text-white text-center p-3 mt-5">
         <p>© 2026 Agence Immobilière - Tous droits réservés</p>

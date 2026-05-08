@@ -13,6 +13,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Page d'accceuil</title>
+    <link rel="stylesheet" href="../configuration/css/bootstrap.min.css">
+
     <link rel="icon"  href="../configuration/images/logoagence.jpeg">
 
     <style>
@@ -26,8 +28,10 @@
         body{
             background-color: #c9d6ff;
             background: linear-gradient(to right, #e2e2e2, #c9d6ff);
+            display:flex;
+            flex-direction:column;
+            min-height:100vh;
             width:100%;
-            min-height: 100vh;
         }
         h1,h2{
             display:flex;
@@ -40,40 +44,71 @@
             align-items:center;
             justify-content:center;
             flex-direction:column;
-            padding:15px;
+            padding:28px 24px;
             background:#ffffff;
-            width:50%;
-            height:500px;
-            margin:15px auto;
-            border-radius:15px;
-            gap:20px;
+            width:min(92%, 620px);
+            margin:18px auto 28px;
+            border-radius:18px;
+            gap:14px;
+            box-shadow:0 12px 30px rgba(0,0,0,0.08);
         }
         input,select,textarea{
             border:1px solid #eeeeee;
             background:#eeeeee;
-            border-radius:5px;
-            padding:5px;
-            width:40%;
+            border-radius:10px;
+            padding:12px 14px;
+            width:100%;
             outline:none;
+        }
+        label{
+            width:100%;
+            text-align:left;
+            font-weight:600;
+            color:#333;
+            margin-top:4px;
         }
         input[type="submit"]{
             background:#512da8;
-            padding-left:20px;
-            padding-right:20px;
-            padding-top:10px;
-            padding-bottom:10px;
+            padding:12px 20px;
             color:white;
-            width:30%;
+            width:100%;
+            border:none;
+            cursor:pointer;
+            font-weight:600;
+            transition:0.3s;
+
+        }
+        input[type="submit"]:hover{
+            background:#311b92;
+            transform:translateY(-1px);
 
         }
         textarea{
-            min-width:40%;
-            max-width:70%;
-            max-height:400px;        
+            min-height:120px;
+            max-height:260px;
+            resize:vertical;
         }
         footer {
             margin-top: auto;
             width: 100%;
+        }
+
+        @media (max-width: 576px) {
+            h2 {
+                font-size: 1.2rem;
+                text-align: center;
+                padding: 0 12px;
+            }
+
+            form {
+                width: calc(100% - 24px);
+                padding: 22px 16px;
+                gap: 12px;
+            }
+
+            input, select, textarea, input[type="submit"] {
+                font-size: 0.95rem;
+            }
         }
         
 
@@ -98,7 +133,7 @@
         <input type="file" name="images[]" accept="image/gif, image/jpeg , image/png" multiple>
         <input type="submit" value="Ajouter">
     </form>
-        <footer class="bg-dark text-white text-center p-3 mt-5">
+    <footer class="bg-dark text-white text-center p-3">
         <p>© 2026 Agence Immobilière - Tous droits réservés</p>
     </footer>
     

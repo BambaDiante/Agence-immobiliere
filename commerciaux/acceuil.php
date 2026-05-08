@@ -402,7 +402,123 @@
 .card:hover {
     transform: translateY(-10px);
     box-shadow: 0 15px 30px rgba(0,0,0,0.2) !important;
-}        
+}
+
+/* Limitation description à 2 lignes */
+.description-preview {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.4;
+    font-size: 0.95rem;
+}
+
+        .empty-state {
+            width: min(100%, 760px);
+            margin: 30px auto;
+            padding: 36px 28px;
+            border-radius: 22px;
+            background: linear-gradient(145deg, rgba(255,255,255,0.98), rgba(243,239,255,0.95));
+            border: 1px solid rgba(81, 45, 168, 0.16);
+            box-shadow: 0 20px 45px rgba(17, 12, 46, 0.14);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .empty-state::before {
+            content: "";
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            top: -70px;
+            right: -60px;
+            background: radial-gradient(circle, rgba(81, 45, 168, 0.18), rgba(81, 45, 168, 0));
+        }
+
+        .empty-state::after {
+            content: "";
+            position: absolute;
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            bottom: -70px;
+            left: -60px;
+            background: radial-gradient(circle, rgba(25, 135, 84, 0.18), rgba(25, 135, 84, 0));
+        }
+
+        .empty-state-icon {
+            width: 78px;
+            height: 78px;
+            margin: 0 auto 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 34px;
+            font-weight: 700;
+            color: #311b92;
+            background: rgba(81, 45, 168, 0.12);
+            border: 1px solid rgba(81, 45, 168, 0.25);
+            position: relative;
+            z-index: 1;
+        }
+
+        .empty-state h2 {
+            margin: 0 0 10px;
+            font-size: clamp(1.4rem, 3vw, 2rem);
+            color: #1f1f2e;
+            position: relative;
+            z-index: 1;
+        }
+
+        .empty-state p {
+            margin: 0 auto 24px;
+            width: min(100%, 560px);
+            color: #4c4f69;
+            font-size: 1rem;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        .empty-state .btn-add {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            padding: 12px 22px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #512da8, #311b92);
+            color: #fff;
+            font-weight: 600;
+            box-shadow: 0 10px 24px rgba(49, 27, 146, 0.32);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .empty-state .btn-add:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 30px rgba(49, 27, 146, 0.4);
+            color: #fff;
+        }
+
+        @media (max-width: 576px) {
+            .empty-state {
+                padding: 28px 18px;
+                border-radius: 16px;
+            }
+
+            .empty-state-icon {
+                width: 66px;
+                height: 66px;
+                font-size: 28px;
+            }
+        }
         
         
     </style>
@@ -468,7 +584,7 @@
                         echo "<img src='".$info['url']."' class='card-img-top' alt='Image du bien'>";         
                         echo "<div class='card-body d-flex flex-column'>"; // flex-column pour aligner le bouton en bas
                             echo '<h5 class="card-title">'.$info['titre'].'</h5>';
-                            echo '<p class="card-text">'.$info['Description'].'</p>';
+                            echo '<p class="card-text description-preview">'.$info['Description'].'</p>';
                             
                             echo '<ul class="list-group list-group-flush mt-auto">'; // mt-auto pousse la liste vers le bas
                                 echo '<li class="list-group-item"><strong>Adresse:</strong> '.$info['Adresse'].'</li>';
@@ -489,7 +605,12 @@
 
            }
            else{
-            echo "<h1>Vous n'avez pas encore de bien</h1>";
+            echo '<div class="empty-state">';
+            echo '  <div class="empty-state-icon">+</div>';
+            echo '  <h2>Vous n\'avez pas encore de bien</h2>';
+            echo '  <p>Commencez par ajouter votre premier bien pour le mettre en location et le gérer facilement depuis votre espace commercial.</p>';
+            echo '  <a href="ajout.php" class="btn-add">Ajouter mon premier bien</a>';
+            echo '</div>';
            }
 
 

@@ -30,6 +30,8 @@
             width:100%;
             min-height: 100vh;
             text-align:center;
+            display: flex;
+            flex-direction: column;
         }
         header {
             display: flex;
@@ -217,39 +219,9 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
-        table{
-            border-collapse:collapse;
-            margin:40px auto;
-            border:1px solid black;
-            font-weight:300;
-            max-width:98%;
-                      
-        }
-        tr,th,td{
-            border:1px solid black;
-            font-weight:300;
-            margin:15px;
-            padding:15px;
-            border-radius:15px;  
-        }
-        .im{
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            border:none;
-
-        }
-        .pic{
-            height:200px;
-                    
-        }
-        input[type="submit"]{
-            padding:5px;
-            border-radius:10px;
-            border:1px solid black;
-        }
         .container{
             margin-top:100px;
+            flex: 1 0 auto;
         }
         footer {
             margin-top: auto;
@@ -288,6 +260,234 @@
         .anu{
             background:#bb2d3b;
             color:white;
+        }
+        .locations-container {
+            width: 100%;
+            max-width: 1300px;
+            margin: 25px auto 0;
+        }
+
+        .location-col {
+            margin-bottom: 1.5rem;
+        }
+
+        .location-card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .location-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2) !important;
+        }
+
+        .image-section {
+            width: 100%;
+            height: 240px;
+            background: #f5f5f5;
+            overflow: hidden;
+        }
+
+        .carousel,
+        .carousel-inner,
+        .carousel-item {
+            height: 100%;
+        }
+
+        .property-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: #f5f5f5;
+        }
+
+        .info-section {
+            padding: 1rem;
+            text-align: left;
+        }
+
+        .top-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            gap: 0.5rem;
+        }
+
+        .top-info h2 {
+            font-size: 1.1rem;
+            margin: 0;
+            color: #222;
+            font-weight: 700;
+        }
+
+        .status {
+            padding: 5px 11px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .validated {
+            background: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .client-block p {
+            margin: 0.35rem 0;
+            color: #444;
+            font-size: 0.95rem;
+        }
+
+        .action-section {
+            margin-top: 1rem;
+        }
+
+        .action-btn {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .validate-btn {
+            background: #198754;
+            color: white;
+        }
+
+        .validate-btn:hover {
+            background: #157347;
+        }
+
+        .cancel-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        .cancel-btn:hover {
+            background: #bb2d3b;
+        }
+
+        .empty-locations {
+            width: min(100%, 820px);
+            margin: 30px auto 10px;
+            padding: 34px 24px;
+            border-radius: 20px;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(241, 236, 255, 0.95));
+            border: 1px solid rgba(81, 45, 168, 0.16);
+            box-shadow: 0 16px 36px rgba(17, 12, 46, 0.12);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .empty-locations::before {
+            content: "";
+            position: absolute;
+            width: 170px;
+            height: 170px;
+            border-radius: 50%;
+            top: -70px;
+            right: -55px;
+            background: radial-gradient(circle, rgba(81, 45, 168, 0.16), rgba(81, 45, 168, 0));
+        }
+
+        .empty-locations::after {
+            content: "";
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            bottom: -65px;
+            left: -55px;
+            background: radial-gradient(circle, rgba(25, 135, 84, 0.14), rgba(25, 135, 84, 0));
+        }
+
+        .empty-icon {
+            width: 74px;
+            height: 74px;
+            margin: 0 auto 14px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            font-weight: 700;
+            color: #311b92;
+            background: rgba(81, 45, 168, 0.12);
+            border: 1px solid rgba(81, 45, 168, 0.26);
+            position: relative;
+            z-index: 1;
+        }
+
+        .empty-locations h2 {
+            margin: 0 0 10px;
+            color: #1f1f2e;
+            font-size: clamp(1.35rem, 2.6vw, 1.95rem);
+            position: relative;
+            z-index: 1;
+        }
+
+        .empty-locations p {
+            margin: 0 auto 22px;
+            width: min(100%, 580px);
+            color: #4c4f69;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        .empty-locations .btn-empty {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(135deg, #512da8, #311b92);
+            box-shadow: 0 10px 22px rgba(49, 27, 146, 0.3);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .empty-locations .btn-empty:hover {
+            transform: translateY(-2px);
+            color: #fff;
+            box-shadow: 0 14px 28px rgba(49, 27, 146, 0.38);
+        }
+
+        @media (max-width: 500px) {
+            .top-info {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .empty-locations {
+                padding: 28px 16px;
+                border-radius: 16px;
+            }
+
+            .empty-icon {
+                width: 64px;
+                height: 64px;
+                font-size: 26px;
+            }
         }
         
     </style>
@@ -329,66 +529,162 @@
     <div class="container">
         <h1>Gestion des locations</h1>
         <?php
-        $loc="SELECT l.idLoc, l.idBien, l.duree, l.dateDebut,l.is_validated, l.prix, u.nom, p.url
-                FROM location l
-                JOIN users u ON u.idUser = l.idUser
-                JOIN bien_imm b ON b.IdBien = l.idBien
-                JOIN photos p ON p.id = (
-                    SELECT MIN(p2.id)
-                    FROM photos p2
-                    WHERE p2.idBien = b.IdBien
-                )
-                WHERE b.idUser = :idUser";
+        $loc="SELECT l.idLoc,
+             l.idBien,
+             l.duree,
+             l.dateDebut,
+             l.is_validated,
+             l.prix,
+             u.nom,
+             Paie.mode
+      FROM location l
+      JOIN users u ON u.idUser = l.idUser
+      JOIN bien_imm b ON b.IdBien = l.idBien
+      JOIN paiement Paie ON l.idLoc = Paie.idLoc
+      WHERE b.idUser = :idUser";
         $location=$pdo->prepare($loc);
         $location->execute([
             ":idUser"=>$id
         ]);
         $locs=$location->fetchAll(PDO::FETCH_ASSOC);
         ?>
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>Image du bien</th>
-                <th>Nom du client</th>
-                <th>Duree(en jours)</th>
-                <th>Date de debut</th>
-                <th>Prix</th>
-                <th>Action</th>
-            </tr>
+
+        <?php if (empty($locs)) { ?>
+        <div class="empty-locations">
+            <div class="empty-icon">0</div>
+            <h2>Aucune location a gerer pour le moment</h2>
+            <p>
+                Vos biens sont bien en place, mais aucune reservation n'a encore ete enregistree.
+                Des qu'un client reserve, la location apparaitra ici avec tous les details.
+            </p>
+            <a href="consult.php" class="btn-empty">Voir mes biens</a>
+        </div>
+        <?php } else { ?>
+        <div class="locations-container row">
+    <?php
+    foreach($locs as $l){
+    ?>
             <?php
-            foreach($locs as $l){
-                echo "<tr>";
-                echo "<td>".$l['idLoc']."</td>";
-                echo "<td class='im'><img src='".$l['url']."' class='pic'></td>";
-                echo "<td>".$l['nom']."</td>";
-                echo "<td>".$l['duree']."</td>";
-                echo "<td>".$l['dateDebut']."</td>";
-                echo "<td>".$l['prix']."</td>";
-                echo "<td>";
-               
-                if($l['is_validated']==0){
-                    echo "<form method='POST' action='validate.php'>";
-                    echo "<input type='hidden' name='id' value='".$l['idLoc']."'>";
-                    echo "<input type='submit' class='val' name='val' value='Valider'>";
-                    echo "</form>";
-                }
-                else{
-                    echo "<form method='POSt' action='validate.php'>";
-                    echo "<input type='hidden' name='id' value='".$l['idLoc']."'>";
-                    echo "<input type='submit' class='anu' name='anu' value='Annuler'>";
-                    echo "</form>";                    
-                }
-                echo "</td>";
-                echo "</tr>";
+$reqPhotos = $pdo->prepare("SELECT url FROM photos WHERE idBien = :idBien");
+$reqPhotos->execute([
+    ":idBien" => $l['idBien']
+]);
+
+$photos = $reqPhotos->fetchAll(PDO::FETCH_ASSOC);
+?>
+        <div class="col-md-6 col-lg-4 location-col">
+            <div class="card shadow h-100 location-card">
+
+            <div class="image-section">
+
+    <div id="carousel<?= $l['idLoc'] ?>" class="carousel slide" data-bs-ride="carousel">
+
+        <div class="carousel-inner">
+
+            <?php
+            foreach($photos as $index => $photo){
+            ?>
+                <div class="carousel-item <?= $index == 0 ? 'active' : '' ?>">
+                    <img src="<?= $photo['url'] ?>" class="property-image">
+                </div>
+            <?php
             }
             ?>
-        </table>
+
+        </div>
+
+        <?php
+        if(count($photos) > 1){
+        ?>
+            <button class="carousel-control-prev"
+                    type="button"
+                    data-bs-target="#carousel<?= $l['idLoc'] ?>"
+                    data-bs-slide="prev">
+
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+
+            <button class="carousel-control-next"
+                    type="button"
+                    data-bs-target="#carousel<?= $l['idLoc'] ?>"
+                    data-bs-slide="next">
+
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        <?php
+        }
+        ?>
+
     </div>
-    <footer class="bg-dark text-white text-center p-3 mt-5">
+
+</div>
+
+            <div class="info-section card-body">
+
+                <div class="top-info">
+                    <h2>Location #<?= $l['idLoc'] ?></h2>
+
+                    <?php
+                    if($l['is_validated']==0){
+                        echo "<span class='status pending'>En attente</span>";
+                    }
+                    else{
+                        echo "<span class='status validated'>Validée</span>";
+                    }
+                    ?>
+                </div>
+
+                <div class="client-block">
+                    <p><strong>Client :</strong> <?= $l['nom'] ?></p>
+                    <p><strong>Durée :</strong> <?= $l['duree'] ?> jours</p>
+                    <p><strong>Date début :</strong> <?= $l['dateDebut'] ?></p>
+                    <p><strong>Prix :</strong> <?= $l['prix'] ?> FCFA</p>
+                    <p><strong>Paiement :</strong> <?= $l['mode'] ?></p>
+                </div>
+
+                <div class="action-section">
+
+                    <?php
+                    if($l['is_validated']==0){
+                    ?>
+                        <form method="POST" action="validate.php">
+                            <input type="hidden" name="id" value="<?= $l['idLoc'] ?>">
+                            <button type="submit" class="action-btn validate-btn" name="val">
+                                Valider
+                            </button>
+                        </form>
+                    <?php
+                    }
+                    else{
+                    ?>
+                        <form method="POST" action="validate.php">
+                            <input type="hidden" name="id" value="<?= $l['idLoc'] ?>">
+                            <button type="submit" class="action-btn cancel-btn" name="anu">
+                                Annuler
+                            </button>
+                        </form>
+                    <?php
+                    }
+                    ?>
+
+                </div>
+
+            </div>
+
+        </div>
+        </div>
+    <?php
+    }
+    ?>
+</div>
+        <?php } ?>
+    </div>
+    <footer class="bg-dark text-white text-center p-3">
         <p>© 2026 Agence Immobilière - Tous droits réservés</p>
     </footer>
     
 </body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
        
         function toggleMenu() {

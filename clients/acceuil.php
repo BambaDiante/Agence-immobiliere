@@ -198,7 +198,7 @@
 
                             <!-- Infos + bouton -->
                             <div class="card-body text-center">
-                                <h5 class="fw-bold mb-2"><?= ($bien['Type']=="app") ? 'Appartement' : 'Villa';?></h5>
+                                <h5 class="fw-bold mb-2"><?= $bien['titre'];?></h5>
                                 <p class="mb-1 text-muted"><i class="fa fa-map-marker-alt text-danger"></i> <?= htmlspecialchars($bien['Adresse']) ?></p>
                                 <p class="mb-3"><i class="fa fa-tag text-success"></i> <strong><?= number_format($bien['Prix_jour'], 0, ',', ' ') ?> FCFA</strong> / jour</p>
                                 <form action="details.php" method="POST">
