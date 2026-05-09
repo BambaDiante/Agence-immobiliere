@@ -9,12 +9,18 @@
         $password = $_POST['password'];
         $motDePasseHache = password_hash($password, PASSWORD_DEFAULT);
         $date = $_POST['date'];
+   $numero = $_POST['numero'];
         $type = "client";
         $activation = 1;
-        $sql = "INSERT INTO users(nom, mail, adresse, date, password, type, is_activated)VALUES (?, ?, ?, ?, ?, ?, ?)";
+   $sql = "INSERT INTO users(nom, mail, adresse, date, password, numero, type, is_activated) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $rsql = $connexion->prepare($sql);
-        $rsql->execute([$name, $mail, $adresse, $date, $motDePasseHache, $type, $activation]);
+   $rsql->execute([$name, $mail, $adresse, $date, $motDePasseHache, $numero, $type, $activation]);
+
+   // Connecte automatiquement le nouvel utilisateur
+   $_SESSION['IdUser'] = (int) $connexion->lastInsertId();
+
         header("Location: acceuil.php");
+        echo"Vous etes inscris";
         exit;
      }
 ?>

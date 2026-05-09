@@ -15,6 +15,10 @@
         $sql = "INSERT INTO users(nom, mail, adresse, date, password,numero, type, is_activated)VALUES (?, ?, ?, ?, ?, ?, ?,?)";
         $rsql = $connexion->prepare($sql);
         $rsql->execute([$name, $mail, $adresse, $date, $motDePasseHache,$numero, $type, $activation]);
+
+   // Connecte automatiquement le nouvel utilisateur
+   $_SESSION['IdUser'] = (int) $connexion->lastInsertId();
+
         header("Location: acceuil.php");
         exit;
      }

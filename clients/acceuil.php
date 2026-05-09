@@ -146,7 +146,7 @@
                         <?php else: ?>
                             <li>
                                 <a class="dropdown-item" href="authentification.php">
-                                    <i class="fa fa-sign-in-alt"></i> Se connecter
+                                    <i class="fa fa-sign-in-alt"></i> Se connecter/S'inscrire
                                 </a>
                             </li>
                         <?php endif; ?>

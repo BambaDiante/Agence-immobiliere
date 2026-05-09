@@ -10,6 +10,17 @@ if(!isset($_SESSION['IdUser'])){
     exit();
 }
 
+// Vérifier si le compte est activé
+$sqlUser = "SELECT is_activated FROM users WHERE IdUser = ?";
+$stmtUser = $connexion->prepare($sqlUser);
+$stmtUser->execute([$_SESSION['IdUser']]);
+$user = $stmtUser->fetch();
+
+if($user && $user['is_activated'] == 0){
+    header("Location: compte_bloque.php");
+    exit();
+}
+
 $idBien = $_POST['idBien'] ?? $_GET['id'] ?? null;
 
 if(!$idBien){

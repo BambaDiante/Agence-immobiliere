@@ -178,6 +178,11 @@ if(!$bien){
                     <button class="btn-cash" onclick='payer("Especes", "")'> Paiement en especes </button>
                 </div>
             </div>
+            <div class="text-center">
+                        <a href="acceuil.php" class="text-muted">
+                            Annuler
+                        </a>
+            </div>
             <div class="footer-note">
                 Merci pour votre confiance 🏡
             </div>

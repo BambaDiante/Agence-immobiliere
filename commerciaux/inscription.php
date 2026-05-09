@@ -17,7 +17,7 @@ if(isset($_POST['name'], $_POST['mail'], $_POST['date'], $_POST['adresse'], $_PO
         ":adresse" => $_POST['adresse'],
         ":mail" => $_POST['mail'],
         ":password" => $passwordHache, // On enregistre le hash
-        ':numero'=>$_POST['num'],
+        ':numero'=>$_POST['tel'],
         ':lien_marchand'=>$_POST['lien'],
         ":is_activated" => true
     ]);
